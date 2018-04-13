@@ -1,0 +1,16 @@
+{
+  "leftMenu": {
+    "records": "抓包记录",
+    "rules": "拦截规则"
+  },
+  "appTop":{
+    "filterPlaceholder":"列表过滤",
+    "tips":{
+      "clearRecord":"清除列表",
+      "proxySetting":"代理设置",
+      "proxyInfo":"代理信息",
+      "rootCA":"下载证书"
+    }
+    
+  }
+}
