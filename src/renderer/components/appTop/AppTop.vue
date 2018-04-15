@@ -1,7 +1,7 @@
 <template>
   <div class="app-top">
     <el-tooltip class="item" effect="light" placement="bottom">
-      <div slot="content">{{ $lang.appTop.tips.clearRecord }}</div>
+      <div slot="content">{{ showProxySettingPopover }}</div>
       <i class="el-icon-delete clear" @click="clearRecords"></i>
     </el-tooltip>
 
@@ -15,8 +15,9 @@
       ref="proxySettingPopover"
       placement="bottom"
       width="400"
+      v-model="showProxySettingPopover"
       trigger="click">
-      <proxy-setting-popover></proxy-setting-popover>
+      <proxy-setting-popover @closeProxyPopover="closeProxyPopover"></proxy-setting-popover>
     </el-popover>
     <!-- proxySettingPopover -->
     <el-tooltip class="item" effect="light" placement="bottom">
@@ -33,21 +34,26 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 import ProxySettingPopover from './ProxySettingPopover'
 export default {
   name: 'appTop',
   components: {
     ProxySettingPopover
   },
+  data(){
+    return{
+      showProxySettingPopover:false
+    }
+  },
   methods: {
     ...mapMutations({
       clearRecords: 'CLEAR_RECORDS'
-    })
-  },
-  computed: mapState({
-    count: state => state.Counter.main
-  })
+    }),
+    closeProxyPopover(){
+      this.showProxySettingPopover = false
+    }
+  }
 }
 </script>
 

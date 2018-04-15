@@ -55,6 +55,7 @@
     "element-ui": "^2.3.3",
     "http-mitm-proxy": "^0.6.1",
     "mime-types": "^2.1.18",
+    "nedb": "^1.8.0",
     "node-static": "^0.7.10",
     "object-sizeof": "^1.2.0",
     "os-locale": "^2.1.0",

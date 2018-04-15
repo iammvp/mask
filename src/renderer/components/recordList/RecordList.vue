@@ -34,13 +34,13 @@
       </el-table-column>
     </el-table>
   <transition name="slide-detail">
-    <record-detail v-show="showRecordDetail"></record-detail>
+    <record-detail v-show="showRecordDetail" @closePanel="showRecordDetail = false"></record-detail>
   </transition>
   </div>  
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState,mapMutations } from 'vuex'
 import RecordDetail from './RecordDetail'
 export default {
   components: {
@@ -52,9 +52,15 @@ export default {
     }
   },
   methods: {
-    handleCurrentRecord (val) {
-      console.log(val)
-      this.showRecordDetail = !this.showRecordDetail
+    ...mapMutations({
+      clickRecord: 'SELECT_RECORD'
+    }),
+    handleCurrentRecord (row) {
+      this.clickRecord(row)
+      if(this.showRecordDetail === false){
+        this.showRecordDetail = true
+      }
+      
     }
   },
   computed: mapState({

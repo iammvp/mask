@@ -1,43 +1,48 @@
 const mimeTypes = require('mime-types')
+const request = require('request').defaults({ encoding: null })
 const Proxy = require('./lib/proxy')
 const proxy = Proxy()
-console.log(global.commit)
 /* proxy server */
 const proxyServer = {
   start () {
     proxy.onRequest(function (ctx, callback) {
       // console.log(ctx.clientToProxyRequest.url)
       const protocol = ctx.clientToProxyRequest.connection.encrypted === true ? 'https:' : 'http:'
-      const url = `${protocol}//${ctx.clientToProxyRequest.headers.host}${ctx.clientToProxyRequest.url}`
+      const host = ctx.clientToProxyRequest.headers.host
+      const urlPath = ctx.clientToProxyRequest.url
+      const url = `${protocol}//${host}${urlPath}`
       const requestHeader = ctx.clientToProxyRequest.headers
       const method = ctx.clientToProxyRequest.method
       const currentdate = new Date()
       const start = currentdate.getHours() + ':' + currentdate.getMinutes() + ':' + currentdate.getSeconds()
-      let chunks = []
-      ctx.onResponseData(function (ctx, chunk, callback) {
-        chunks.push(chunk)
-        return callback(null, null) // don't write chunks to client response
-      })
       ctx.onResponseEnd((ctx, callback) => {
-        const responseBody = Buffer.concat(chunks).toString()
-        console.log(responseBody)
-        const statusCode = ctx.serverToProxyResponse.statusCode
-        // const mime = ctx.serverToProxyResponse.headers['content-type'] === undefined ? mimeTypes(url) : ctx.serverToProxyResponse.headers['content-type'].split(';')[0]
-        const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
-        const responseHeader = ctx.serverToProxyResponse.headers
-        const record = {
-          url,
-          start,
-          method,
-          statusCode,
-          mime,
-          requestHeader,
-          responseHeader,
-          responseBody
-        }
-        global.commit('ADD_RECORDS', record)
-        ctx.proxyToClientResponse.write(responseBody)
-        return callback()
+        request({method,uri:url}, (err, response, body)=>{
+          let responseBody = ''
+          if(err) throw err
+          const statusCode = ctx.serverToProxyResponse.statusCode
+          const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
+          if(mime.indexOf('image') !== -1){
+            responseBody = "data:" + response.headers["content-type"] + ";base64," +  new Buffer(body).toString('base64')
+          }else if(mime.indexOf('text') !== -1 || mime === 'application/json' || mime === 'application/javascript'){
+            responseBody = body.toString('utf8')
+          }
+          const responseHeader = ctx.serverToProxyResponse.headers
+          const record = {
+            protocol,
+            host,
+            urlPath,
+            url,
+            start,
+            method,
+            statusCode,
+            mime,
+            requestHeader,
+            responseHeader,
+            responseBody
+          }
+          global.commit('ADD_RECORDS', record)
+          return callback()
+        })
       })
 
       callback()

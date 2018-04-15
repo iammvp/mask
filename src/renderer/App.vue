@@ -19,11 +19,20 @@
 <script>
   import LeftMenu from './components/LeftMenu.vue'
   import AppTop from './components/appTop/AppTop.vue'
+  import { mapActions } from 'vuex'
   export default {
     name: 'maskApp',
     components: {
       LeftMenu,
       AppTop
+    },
+    methods: {
+      ...mapActions({
+        loadProxySetting: 'loadProxySetting'
+      })
+    },
+    mounted(){
+      this.loadProxySetting()
     }
   }
 </script>

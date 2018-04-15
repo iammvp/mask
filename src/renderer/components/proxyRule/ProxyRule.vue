@@ -6,20 +6,25 @@
       <el-dialog
         :visible.sync="showAddRuleDialog">
         <span class="title" slot="title">标题</span>
-        <el-form label-position="top" :model="rulesInfo">
-          <el-form-item label="描述">
+        <el-form label-position="left" :model="rulesInfo" label-width="80px" :rules="rules" ref="addRuleTable">
+          <el-form-item label="描述" prop="desc">
             <el-input v-model="rulesInfo.desc"></el-input>
           </el-form-item>
-          <el-form-item label="From">
+          <el-form-item label="From" prop="from">
             <el-input v-model="rulesInfo.from"></el-input>
           </el-form-item>
-          <el-form-item label="To">
-            <el-input v-model="rulesInfo.to"></el-input>
+          <el-form-item label="To" prop="to">
+            <el-col :span="16">
+              <el-input v-model="rulesInfo.to" ></el-input>
+            </el-col>
+            <el-col :span="8" class="local-file-button">
+              <el-button >本地文件</el-button>
+            </el-col>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="showAddRuleDialog = false">取 消</el-button>
-          <el-button type="primary" @click="showAddRuleDialog = false">确 定</el-button>
+          <el-button type="primary" @click="handleConfirmClicked()">确 定</el-button>
         </span>
       </el-dialog>
       <!-- addRuleDialog -->
@@ -77,7 +82,30 @@ export default {
 
       },
       // ruleLists: []
-      ruleLists: testData.result
+      ruleLists: testData.result,
+      rules:{
+        desc:[
+          { required: true, message: '请输入活动名称', trigger: 'blur' }
+        ],
+        from:[
+          { required: true, message: '请输入活动名称', trigger: 'blur' }
+        ],
+        to:[
+          { required: true, message: '请输入活动名称', trigger: 'blur' }
+        ],
+      }
+    }
+  },
+  methods:{
+    handleConfirmClicked(){
+      this.$refs.addRuleTable.validate( valid => {
+        if(valid){
+          // add to database logic
+          this.showAddRuleDialog = false
+        }else{
+          return false
+        }
+      })
     }
   }
 }
@@ -91,6 +119,9 @@ export default {
   }
   .rule-lists{
     height: 90%;
+  }
+  .local-file-button{
+    text-align: right;
   }
 }
 </style>
