@@ -1,20 +1,25 @@
 const sizeof = require('object-sizeof')
 const state = {
-  selectedRecord:{},
+  selectedRecord: {},
+  filter: '',
   records: []
 }
-
+const getters = {
+  filteredRecords: state => state.records.filter(r => r.url.indexOf(state.filter) !== -1),
+  sizeOfRecords: state => (sizeof(state.records) / 1024 / 1024).toFixed(2)
+}
 const mutations = {
   CLEAR_RECORDS (state) {
     state.records = []
   },
   ADD_RECORDS (state, newRecord) {
     state.records.push(newRecord)
-    // console.log(sizeof(state.records))
   },
-  SELECT_RECORD(state,record){
+  SELECT_RECORD (state, record) {
     state.selectedRecord = record
-    console.log(state.selectedRecord)
+  },
+  CHANGE_FILTER (state, value) {
+    state.filter = value
   }
 }
 
@@ -27,6 +32,7 @@ const actions = {
 
 export default {
   state,
+  getters,
   mutations,
   actions
 }

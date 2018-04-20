@@ -5,7 +5,6 @@ function lang () {
   let langObj
   const locale = osLocale.sync()
   const filePath = path.join(global.rootPath, `/lang/${locale}.json`)
-  console.log(filePath)
   if (fs.existsSync(filePath)) {
     langObj = fs.readFileSync(filePath, 'utf8')
   } else {

@@ -28,11 +28,13 @@
     },
     methods: {
       ...mapActions({
-        loadProxySetting: 'loadProxySetting'
+        loadProxySetting: 'loadProxySetting',
+        loadRuleList: 'loadRuleList'
       })
     },
-    mounted(){
+    mounted () {
       this.loadProxySetting()
+      this.loadRuleList()
     }
   }
 </script>

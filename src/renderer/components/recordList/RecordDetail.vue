@@ -7,7 +7,7 @@
       <el-tab-pane label="配置管理" name="second">
         <preview-detail></preview-detail>
       </el-tab-pane>
-      <el-tab-pane label="配置管理" name="second">
+      <el-tab-pane label="配置管理" name="third">
         <response-detail></response-detail>
       </el-tab-pane>
     </el-tabs>
@@ -20,14 +20,14 @@ import HeadersDetail from './HeadersDetail'
 import PreviewDetail from './PreviewDetail'
 import ResponseDetail from './ResponseDetail'
 export default {
-  name:'recordDetail',
-  components:{
+  name: 'recordDetail',
+  components: {
     HeadersDetail,
     PreviewDetail,
     ResponseDetail
   },
-  methods:{
-    closePanel(){
+  methods: {
+    closePanel () {
       this.$emit('closePanel')
     }
   }
@@ -40,8 +40,9 @@ export default {
   top: 5%;
   right: 0;
   width: 35%;
-  height:95%;
+  height:85%;
   background: #fff;
+  overflow-x: auto;
   overflow-y: auto;
   box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
   z-index: 10;

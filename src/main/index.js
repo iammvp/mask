@@ -3,7 +3,7 @@ import '../utils/store'
 const path = require('path')
 
 const lang = require('../utils/detectLang')
-const proxyServer = require('../utils/proxy/')
+const communication = require('./communication')
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -32,8 +32,7 @@ function createWindow () {
   })
 
   mainWindow.loadURL(winURL)
-  // start proxy server
-  proxyServer.start()
+
   mainWindow.on('closed', () => {
     mainWindow = null
   })
@@ -52,7 +51,8 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
+/* communication between main and render */
+communication()
 /**
  * Auto Updater
  *

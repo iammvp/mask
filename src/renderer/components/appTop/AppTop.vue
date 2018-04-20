@@ -6,6 +6,7 @@
     </el-tooltip>
 
     <el-input class="filter"
+    v-model="recordFilter"
     :placeholder="$lang.appTop.filterPlaceholder"
     prefix-icon="el-icon-search">
     </el-input>
@@ -34,24 +35,38 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import ProxySettingPopover from './ProxySettingPopover'
 export default {
   name: 'appTop',
   components: {
     ProxySettingPopover
   },
-  data(){
-    return{
-      showProxySettingPopover:false
+  data () {
+    return {
+      showProxySettingPopover: false
     }
   },
   methods: {
     ...mapMutations({
-      clearRecords: 'CLEAR_RECORDS'
+      clearRecords: 'CLEAR_RECORDS',
+      changeFilter: 'CHANGE_FILTER'
     }),
-    closeProxyPopover(){
+    closeProxyPopover () {
       this.showProxySettingPopover = false
+    }
+  },
+  computed: {
+    ...mapState({
+      filter: state => state.Records.filter
+    }),
+    recordFilter: {
+      get () {
+        return this.filter
+      },
+      set (value) {
+        this.changeFilter(value)
+      }
     }
   }
 }

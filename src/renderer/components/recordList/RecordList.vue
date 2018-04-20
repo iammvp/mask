@@ -2,9 +2,9 @@
   <div class="record-list">
     <el-table
       :data="records"
-      stripe
       height="100%"
       @row-click="handleCurrentRecord"
+      :row-class-name="highlightMatchedRow"
       style="width: 100%">
       <el-table-column
         prop="url"
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapState,mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import RecordDetail from './RecordDetail'
 export default {
   components: {
@@ -57,22 +57,34 @@ export default {
     }),
     handleCurrentRecord (row) {
       this.clickRecord(row)
-      if(this.showRecordDetail === false){
+      if (this.showRecordDetail === false) {
         this.showRecordDetail = true
       }
-      
+    },
+    highlightMatchedRow ({row}) {
+      if (row.isMatched) {
+        return 'success-row'
+      }
     }
   },
-  computed: mapState({
-    records: state => state.Records.records
-  })
+  computed: {
+    ...mapGetters({
+      records: 'filteredRecords'
+    })
+  }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .record-list{
   height: 100%;
+  .success-row {
+    background-color: #f0f9eb!important;
 }
+}
+
+
+
 .slide-detail-enter-active {
   transition: all .3s ease;
 }

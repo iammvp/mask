@@ -1,6 +1,6 @@
 <template>
     <div class="response">
-        {{selectedRecord.responseBody}}
+        <pre>{{selectedRecord.responseBody}}</pre>
     </div>
 </template>
 
