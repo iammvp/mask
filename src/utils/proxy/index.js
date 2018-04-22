@@ -1,7 +1,7 @@
 const fs = require('fs')
 const url = require('url')
 const mimeTypes = require('mime-types')
-const request = require('request').defaults({ encoding: null })
+const request = require('request')
 const Proxy = require('./lib/proxy')
 let proxy = Proxy()
 /* proxy server */
@@ -32,19 +32,22 @@ const proxyServer = {
       if (mactchResult !== false) {
         replaceMatch(mactchResult, ctx, requestInfo)
       } else {
+        let body = []
+        ctx.onResponseData((ctx,chunk,callback)=>{
+          body.push(chunk)
+          return callback(null, null)
+        })
         ctx.onResponseEnd((ctx, callback) => {
-          request({method, uri: url}, (err, response, body) => {
-            let responseBody = ''
-            if (err) throw err
-            const statusCode = ctx.serverToProxyResponse.statusCode
-            const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
-            if (mime.indexOf('image') !== -1) {
-              responseBody = 'data:' + response.headers['content-type'] + ';base64,' + Buffer.from(body).toString('base64')
-            } else if (mime.indexOf('text') !== -1 || mime === 'application/json' || mime === 'application/javascript') {
-              responseBody = body.toString('utf8')
-            }
-            const responseHeader = ctx.serverToProxyResponse.headers
-            const record = {
+          let responseBody = ''
+          const statusCode = ctx.serverToProxyResponse.statusCode
+          const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
+          const responseHeader = ctx.serverToProxyResponse.headers
+          if (mime.indexOf('image') !== -1) {
+            responseBody = 'data:' + responseHeader['content-type'] + ';base64,' + Buffer.concat(body).toString('base64')
+          } else if (mime.indexOf('text') !== -1 || mime === 'application/json' || mime === 'application/javascript') {
+            responseBody = body.toString()
+          }
+          const record = {
               protocol,
               host,
               urlPath,
@@ -58,9 +61,37 @@ const proxyServer = {
               responseHeader,
               responseBody
             }
+            ctx.proxyToClientResponse.write(Buffer.concat(body))
             global.commit('ADD_RECORDS', record)
             return callback()
-          })
+          // request({method, uri: url}, (err, response, body) => {
+          //   let responseBody = ''
+          //   if (err) throw err
+          //   const statusCode = ctx.serverToProxyResponse.statusCode
+          //   const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
+          //   if (mime.indexOf('image') !== -1) {
+          //     responseBody = 'data:' + response.headers['content-type'] + ';base64,' + Buffer.from(body).toString('base64')
+          //   } else if (mime.indexOf('text') !== -1 || mime === 'application/json' || mime === 'application/javascript') {
+          //     responseBody = body.toString('utf8')
+          //   }
+          //   const responseHeader = ctx.serverToProxyResponse.headers
+          //   const record = {
+          //     protocol,
+          //     host,
+          //     urlPath,
+          //     url,
+          //     start,
+          //     method,
+          //     statusCode,
+          //     mime,
+          //     isMatched: false,
+          //     requestHeader,
+          //     responseHeader,
+          //     responseBody
+          //   }
+          //   global.commit('ADD_RECORDS', record)
+          //   return callback()
+          // })
         })
         callback()
       }

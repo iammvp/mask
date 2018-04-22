@@ -186,7 +186,7 @@ export default {
       },
       (val) => {
         // watch ruleLists change an auto restart proxy server
-        ipcRenderer.send('ruleListsChange')
+        ipcRenderer.send('needRestartProxyServer')
       },
       {
         deep: true

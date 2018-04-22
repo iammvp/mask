@@ -4,7 +4,7 @@ const {proxySettingDB} = require('../../../utils/localDatabase')
 const state = {
   proxySetting: {},
   isProxyServerStart: false,
-  localIP: networkInterfaces()['en0'][1].address
+  localIP: '192.168.1.22'
 }
 
 const mutations = {

@@ -22,7 +22,6 @@ function communication () {
   })
   /* proxy rule or setting change restart server */
   ipcMain.on('needRestartProxyServer', (event) => {
-    console.log(global.state.ProxySetting.isProxyServerStart)
     if (global.state.ProxySetting.isProxyServerStart) {
       proxyServer.restart()
     }
