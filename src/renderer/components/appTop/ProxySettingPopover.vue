@@ -42,10 +42,10 @@ export default {
     },
     handleConfirmClick () {
       this.saveProxySetting(this.newProxySetting)
-      this.$emit('closeProxyPopover')
+      this.$emit('closeProxySettingPopover')
     },
     handleCancelClick () {
-      this.$emit('closeProxyPopover')
+      this.$emit('closeProxySettingPopover')
       this.resetNewProxySetting()
     }
   },

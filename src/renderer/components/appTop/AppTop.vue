@@ -10,21 +10,30 @@
     :placeholder="$lang.appTop.filterPlaceholder"
     prefix-icon="el-icon-search">
     </el-input>
+
     <i class="el-icon-setting setting" v-popover:proxySettingPopover></i>
     <!-- proxySettingPopover -->
     <el-popover
       ref="proxySettingPopover"
       placement="bottom"
-      width="400"
+      width="250"
       v-model="showProxySettingPopover"
       trigger="click">
-      <proxy-setting-popover @closeProxyPopover="closeProxyPopover"></proxy-setting-popover>
+      <proxy-setting-popover @closeProxySettingPopover="closeProxySettingPopover"></proxy-setting-popover>
     </el-popover>
     <!-- proxySettingPopover -->
-    <el-tooltip class="item" effect="light" placement="bottom">
-      <div slot="content">{{ $lang.appTop.tips.proxyInfo }}</div>
-      <i class="el-icon-info info"></i>
-    </el-tooltip>
+
+    <i class="el-icon-info info" v-popover:proxyInfoPopover></i>
+    <!-- proxyInfoPopover -->
+    <el-popover
+      ref="proxyInfoPopover"
+      placement="bottom"
+      width="150"
+      v-model="proxyInfoPopover"
+      trigger="click">
+      <proxy-info-popover></proxy-info-popover>
+    </el-popover>
+    <!-- proxyInfoPopover -->
 
     <el-tooltip class="item" effect="light" placement="bottom">
       <div slot="content">{{ $lang.appTop.tips.rootCA }}</div>
@@ -37,14 +46,17 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import ProxySettingPopover from './ProxySettingPopover'
+import ProxyInfoPopover from './ProxyInfoPopover'
 export default {
   name: 'appTop',
   components: {
-    ProxySettingPopover
+    ProxySettingPopover,
+    ProxyInfoPopover
   },
   data () {
     return {
-      showProxySettingPopover: false
+      showProxySettingPopover: false,
+      proxyInfoPopover: false
     }
   },
   methods: {
@@ -52,7 +64,7 @@ export default {
       clearRecords: 'CLEAR_RECORDS',
       changeFilter: 'CHANGE_FILTER'
     }),
-    closeProxyPopover () {
+    closeProxySettingPopover () {
       this.showProxySettingPopover = false
     }
   },

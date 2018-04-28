@@ -1,13 +1,10 @@
 <template>
   <div class="record-detail">
-    <el-tabs>
-      <el-tab-pane label="用户管理" name="first">
-        <headers-detail></headers-detail>
+    <el-tabs v-model="defaultTab">
+      <el-tab-pane label="Request" name="request">
+        <request-detail></request-detail>
       </el-tab-pane>
-      <el-tab-pane label="配置管理" name="second">
-        <preview-detail></preview-detail>
-      </el-tab-pane>
-      <el-tab-pane label="配置管理" name="third">
+      <el-tab-pane label="Response" name="response">
         <response-detail></response-detail>
       </el-tab-pane>
     </el-tabs>
@@ -17,14 +14,19 @@
 
 <script>
 import HeadersDetail from './HeadersDetail'
-import PreviewDetail from './PreviewDetail'
+import RequestDetail from './RequestDetail'
 import ResponseDetail from './ResponseDetail'
 export default {
   name: 'recordDetail',
   components: {
     HeadersDetail,
-    PreviewDetail,
+    RequestDetail,
     ResponseDetail
+  },
+  data () {
+    return {
+      defaultTab: 'request'
+    }
   },
   methods: {
     closePanel () {
@@ -34,16 +36,15 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .record-detail{
   position: absolute;
-  top: 5%;
+  top: 10%;
   right: 0;
   width: 35%;
   height:85%;
+  padding: 10px;
   background: #fff;
-  overflow-x: auto;
-  overflow-y: auto;
   box-shadow: -3px 2px 9px rgba(0, 0, 0, 0.4);
   z-index: 10;
   .close_panel{
@@ -51,6 +52,21 @@ export default {
     right:12px;
     top:12px;
     cursor: pointer;
+  }
+  .el-tabs{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .el-tabs__content{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .el-tab-pane{ 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

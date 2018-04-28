@@ -307,7 +307,7 @@ Proxy.prototype._onHttpServerConnect = function (req, socket, head) {
       socket.once('data', self._onHttpServerConnectData.bind(self, req, socket))
       socket.write('HTTP/1.1 200 OK\r\n')
       if (self.keepAlive && req.headers['proxy-connection'] === 'keep-alive') {
-        socket.write('Proxy-Connection: keep-alive\r\n')
+        socket.write('Proxy-Connec: keep-alive\r\n')
         socket.write('Connection: keep-alive\r\n')
       }
       return socket.write('\r\n')

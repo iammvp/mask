@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
+import VueHighlightJS from 'vue-highlightjs'
+import './assets/highlight.main.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import { remote } from 'electron'
@@ -11,6 +13,7 @@ import store from './store'
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.prototype.$lang = remote.getGlobal('lang')
 console.log(remote.getGlobal('lang'))
+Vue.use(VueHighlightJS)
 Vue.use(ElementUI)
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false

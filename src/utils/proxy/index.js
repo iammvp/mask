@@ -1,8 +1,11 @@
-const fs = require('fs')
+const path = require('path')
 const url = require('url')
+const fs = require('fs')
 const mimeTypes = require('mime-types')
 const request = require('request')
 const Proxy = require('./lib/proxy')
+
+const downloadCA = 'http://getca.mask/' // url to download CA
 let proxy = Proxy()
 /* proxy server */
 const proxyServer = {
@@ -10,11 +13,14 @@ const proxyServer = {
     const selectedRule = global.state.ProxyRule.ruleLists.filter(r => r.isSelected)
     const proxyPort = global.state.ProxySetting.proxySetting.port
     proxy.onRequest(function (ctx, callback) {
-      // console.log(ctx.clientToProxyRequest.url)
+      // console.log(proxy.proxyToServerRequest)
+      ctx.use(Proxy.gunzip)
       const protocol = ctx.clientToProxyRequest.connection.encrypted === true ? 'https:' : 'http:'
       const host = ctx.clientToProxyRequest.headers.host
       const urlPath = ctx.clientToProxyRequest.url
-      const url = `${protocol}//${host}${urlPath}`
+      const fullUrl = `${protocol}//${host}${urlPath}`
+      console.log(fullUrl)
+      const queryParams = getQueryParams(fullUrl)
       const requestHeader = ctx.clientToProxyRequest.headers
       const method = ctx.clientToProxyRequest.method
       const currentdate = new Date()
@@ -23,81 +29,47 @@ const proxyServer = {
         protocol,
         host,
         urlPath,
-        url,
+        queryParams,
+        fullUrl,
         start,
         method,
         requestHeader
       }
-      const mactchResult = mactchUrl(url, selectedRule)
-      if (mactchResult !== false) {
+      const mactchResult = mactchUrl(fullUrl, selectedRule)
+      if (fullUrl === downloadCA) {
+        ctx.proxyToClientResponse.setHeader('Content-Type', 'application/x-x509-ca-cert')
+        ctx.proxyToClientResponse.setHeader('Content-Disposition', 'attachment; filename="rootCA.crt"')
+        ctx.proxyToClientResponse.end(fs.readFileSync(path.join(global.rootPath, '../.mask-ca/certs/ca.pem'), { encoding: null }))
+      } else if (mactchResult !== false) {
         replaceMatch(mactchResult, ctx, requestInfo)
       } else {
         let body = []
-        ctx.onResponseData((ctx,chunk,callback)=>{
+        ctx.onResponseData((ctx, chunk, callback) => {
           body.push(chunk)
           return callback(null, null)
         })
         ctx.onResponseEnd((ctx, callback) => {
           let responseBody = ''
           const statusCode = ctx.serverToProxyResponse.statusCode
-          const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
+          const mime = mimeTypes.lookup(fullUrl) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
           const responseHeader = ctx.serverToProxyResponse.headers
           if (mime.indexOf('image') !== -1) {
             responseBody = 'data:' + responseHeader['content-type'] + ';base64,' + Buffer.concat(body).toString('base64')
           } else if (mime.indexOf('text') !== -1 || mime === 'application/json' || mime === 'application/javascript') {
             responseBody = body.toString()
+          } else {
+
           }
-          const record = {
-              protocol,
-              host,
-              urlPath,
-              url,
-              start,
-              method,
-              statusCode,
-              mime,
-              isMatched: false,
-              requestHeader,
-              responseHeader,
-              responseBody
-            }
-            ctx.proxyToClientResponse.write(Buffer.concat(body))
-            global.commit('ADD_RECORDS', record)
-            return callback()
-          // request({method, uri: url}, (err, response, body) => {
-          //   let responseBody = ''
-          //   if (err) throw err
-          //   const statusCode = ctx.serverToProxyResponse.statusCode
-          //   const mime = mimeTypes.lookup(url) || (ctx.serverToProxyResponse.headers['content-type'] === undefined ? '' : ctx.serverToProxyResponse.headers['content-type'].split(';')[0])
-          //   if (mime.indexOf('image') !== -1) {
-          //     responseBody = 'data:' + response.headers['content-type'] + ';base64,' + Buffer.from(body).toString('base64')
-          //   } else if (mime.indexOf('text') !== -1 || mime === 'application/json' || mime === 'application/javascript') {
-          //     responseBody = body.toString('utf8')
-          //   }
-          //   const responseHeader = ctx.serverToProxyResponse.headers
-          //   const record = {
-          //     protocol,
-          //     host,
-          //     urlPath,
-          //     url,
-          //     start,
-          //     method,
-          //     statusCode,
-          //     mime,
-          //     isMatched: false,
-          //     requestHeader,
-          //     responseHeader,
-          //     responseBody
-          //   }
-          //   global.commit('ADD_RECORDS', record)
-          //   return callback()
-          // })
+          const record = Object.assign(requestInfo, {statusCode, mime, isMatched: false, responseHeader, responseBody})
+          ctx.proxyToClientResponse.write(Buffer.concat(body))
+          global.commit('ADD_RECORDS', record)
+          return callback()
         })
         callback()
       }
     })
 
-    proxy.listen({port: proxyPort, silent: true}, () => {
+    proxy.listen({port: proxyPort, silent: true, sslCaDir: './.mask-ca'}, () => {
       global.commit('START_SERVER')
       console.log('server started')
     })
@@ -117,24 +89,39 @@ const proxyServer = {
 }
 /* proxy server */
 
+/* getQueryParams */
+function getQueryParams (fullUrl) {
+  const { query } = url.parse(fullUrl)
+  if (query === null) {
+    return null
+  }
+  const queryArray = query.split('&')
+  const tmp = {}
+  queryArray.forEach(v => {
+    const tempArray = v.split('=')
+    tmp[tempArray[0]] = tempArray[1] || ''
+  })
+  return tmp
+}
+/* getQueryParams */
 /* find match */
-function mactchUrl (url, selectedRule) {
+function mactchUrl (fullUrl, selectedRule) {
   const len = selectedRule.length
   if (len === 0) {
     return false
   }
   for (let i = 0; i < len; i++) {
-    if (selectedRule[i].match.substr(-1) === '*') { // url fuzzy match
+    if (selectedRule[i].match.substr(-1) === '*') { // fullUrl fuzzy match
       const fuzzy = selectedRule[i].match.slice(0, -1)
-      if (url.indexOf(fuzzy) !== -1) {
-        if (selectedRule[i].replace.substr(-1) === '*') { // replace url is as well
-          return selectedRule[i].replace.slice(0, -1) + url.slice(fuzzy.length)
+      if (fullUrl.indexOf(fuzzy) !== -1) {
+        if (selectedRule[i].replace.substr(-1) === '*') { // replace fullUrl is as well
+          return selectedRule[i].replace.slice(0, -1) + fullUrl.slice(fuzzy.length)
         } else {
           return selectedRule[i].replace
         }
       }
-    } else { // absolute same
-      if (url === selectedRule[i].match) {
+    } else { // absolute match
+      if (fullUrl === selectedRule[i].match) {
         return selectedRule[i].replace
       }
     }
@@ -165,7 +152,7 @@ function replaceMatch (mactchResult, ctx, requestInfo) {
       if (err) throw err
       copyInfo.responseHeader = response.headers
       copyInfo.statusCode = response.statusCode
-      copyInfo.mime = mimeTypes.lookup(url) || (response.headers['content-type'] === undefined ? '' : response.headers['content-type'].split(';')[0])
+      copyInfo.mime = mimeTypes.lookup(mactchResult) || (response.headers['content-type'] === undefined ? '' : response.headers['content-type'].split(';')[0])
       if (copyInfo.mime.indexOf('image') !== -1) {
         copyInfo.responseBody = 'data:' + response.headers['content-type'] + ';base64,' + Buffer.from(body).toString('base64')
       } else if (copyInfo.mime.indexOf('text') !== -1 || copyInfo.mime === 'application/json' || copyInfo.mime === 'application/javascript') {

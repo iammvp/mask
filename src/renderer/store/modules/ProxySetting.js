@@ -1,12 +1,22 @@
 import { ipcRenderer } from 'electron'
-import { networkInterfaces } from 'os'
 const {proxySettingDB} = require('../../../utils/localDatabase')
 const state = {
   proxySetting: {},
   isProxyServerStart: false,
-  localIP: '192.168.1.22'
+  localIP: getIPAdress()
 }
-
+function getIPAdress () {
+  var interfaces = require('os').networkInterfaces()
+  for (var devName in interfaces) {
+    var iface = interfaces[devName]
+    for (var i = 0; i < iface.length; i++) {
+      var alias = iface[i]
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address
+      }
+    }
+  }
+}
 const mutations = {
   LOAD_PROXY_SETTING (state, doc) {
     if (doc) {

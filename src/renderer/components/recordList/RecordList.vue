@@ -7,7 +7,7 @@
       :row-class-name="highlightMatchedRow"
       style="width: 100%">
       <el-table-column
-        prop="url"
+        prop="fullUrl"
         show-overflow-tooltip
         label="URL">
       </el-table-column>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import RecordDetail from './RecordDetail'
 export default {
   components: {
@@ -53,7 +53,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      clickRecord: 'SELECT_RECORD'
+      clickRecord: 'SELECT_RECORD',
+      sliceRecords: 'SLICE_RECORDS'
     }),
     handleCurrentRecord (row) {
       this.clickRecord(row)
@@ -68,9 +69,29 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      proxySetting: state => state.ProxySetting.proxySetting,
+      recordsTree: state => state.Records.recordsTree
+    }),
     ...mapGetters({
-      records: 'filteredRecords'
+      records: 'filteredRecords',
+      sizeOfRecords: 'sizeOfRecords'
     })
+  },
+  mounted () {
+    this.$store.watch(
+      (state) => {
+        return this.sizeOfRecords
+      },
+      (val) => {
+        if (val > this.proxySetting.ramSize) {
+          console.log(val)
+          this.sliceRecords()
+        }
+      },
+      {
+        deep: true
+      })
   }
 }
 </script>
