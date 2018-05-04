@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import HeadersDetail from './HeadersDetail'
 import RequestDetail from './RequestDetail'
 import ResponseDetail from './ResponseDetail'
@@ -29,8 +30,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      closeRecordDetail: 'CLOSE_RECORD_DETAIL'
+    }),
     closePanel () {
-      this.$emit('closePanel')
+      this.closeRecordDetail()
     }
   }
 }

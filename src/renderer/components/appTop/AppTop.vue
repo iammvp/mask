@@ -1,11 +1,12 @@
 <template>
   <div class="app-top">
     <el-tooltip class="item" effect="light" placement="bottom">
-      <div slot="content">{{ showProxySettingPopover }}</div>
+      <div slot="content">清除记录</div>
       <i class="el-icon-delete clear" @click="clearRecords"></i>
     </el-tooltip>
 
     <el-input class="filter"
+    v-show="this.$route.path === '/record-list/sequence-view'"
     v-model="recordFilter"
     :placeholder="$lang.appTop.filterPlaceholder"
     prefix-icon="el-icon-search">
@@ -16,7 +17,7 @@
     <el-popover
       ref="proxySettingPopover"
       placement="bottom"
-      width="250"
+      width="300"
       v-model="showProxySettingPopover"
       trigger="click">
       <proxy-setting-popover @closeProxySettingPopover="closeProxySettingPopover"></proxy-setting-popover>
@@ -35,11 +36,17 @@
     </el-popover>
     <!-- proxyInfoPopover -->
 
-    <el-tooltip class="item" effect="light" placement="bottom">
-      <div slot="content">{{ $lang.appTop.tips.rootCA }}</div>
-      <i class="el-icon-document cert"></i>
-    </el-tooltip>
-
+    <!-- proxyCaPopover -->
+    <i class="el-icon-document cert" v-popover:proxyCaPopover></i>
+    <el-popover
+      ref="proxyCaPopover"
+      placement="bottom"
+      width="200"
+      v-model="proxyCaPopover"
+      trigger="click">
+      <proxy-ca-popover></proxy-ca-popover>
+    </el-popover>
+    <!-- proxyCaPopover -->
   </div>
 </template>
 
@@ -47,16 +54,19 @@
 import { mapMutations, mapState } from 'vuex'
 import ProxySettingPopover from './ProxySettingPopover'
 import ProxyInfoPopover from './ProxyInfoPopover'
+import ProxyCaPopover from './ProxyCaPopover'
 export default {
   name: 'appTop',
   components: {
     ProxySettingPopover,
-    ProxyInfoPopover
+    ProxyInfoPopover,
+    ProxyCaPopover
   },
   data () {
     return {
       showProxySettingPopover: false,
-      proxyInfoPopover: false
+      proxyInfoPopover: false,
+      proxyCaPopover: false
     }
   },
   methods: {

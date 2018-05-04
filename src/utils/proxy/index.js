@@ -4,7 +4,7 @@ const fs = require('fs')
 const mimeTypes = require('mime-types')
 const request = require('request')
 const Proxy = require('./lib/proxy')
-
+const { dialog } = require('electron')
 const downloadCA = 'http://getca.mask/' // url to download CA
 let proxy = Proxy()
 /* proxy server */
@@ -12,14 +12,21 @@ const proxyServer = {
   start () {
     const selectedRule = global.state.ProxyRule.ruleLists.filter(r => r.isSelected)
     const proxyPort = global.state.ProxySetting.proxySetting.port
+    proxy.onError(function (ctx, err, errorKind) {
+      // ctx may be null
+      global.commit('SERVER_ERROR')
+      if (err.code === 'EADDRINUSE') {
+        dialog.showErrorBox('开启服务器失败', `端口${proxyPort}已被占用`)
+      } else {
+        console.log(err)
+      }
+    })
     proxy.onRequest(function (ctx, callback) {
-      // console.log(proxy.proxyToServerRequest)
       ctx.use(Proxy.gunzip)
       const protocol = ctx.clientToProxyRequest.connection.encrypted === true ? 'https:' : 'http:'
       const host = ctx.clientToProxyRequest.headers.host
       const urlPath = ctx.clientToProxyRequest.url
       const fullUrl = `${protocol}//${host}${urlPath}`
-      console.log(fullUrl)
       const queryParams = getQueryParams(fullUrl)
       const requestHeader = ctx.clientToProxyRequest.headers
       const method = ctx.clientToProxyRequest.method
@@ -75,8 +82,10 @@ const proxyServer = {
     })
   },
   close () {
-    proxy.close()
-    proxy = null
+    if (proxy !== null) {
+      proxy.close()
+      proxy = null
+    }
     global.commit('STOP_SERVER')
   },
   restart () {
@@ -141,12 +150,17 @@ function replaceMatch (mactchResult, ctx, requestInfo) {
     copyInfo.responseHeader = ''
     try {
       copyInfo.responseBody = fs.readFileSync(mactchResult, 'utf8')
+      fs.createReadStream(mactchResult).pipe(ctx.proxyToClientResponse)
     } catch (e) {
       copyInfo.statusCode = 404
       copyInfo.responseBody = e
+      const Readable = require('stream').Readable
+      var s = new Readable()
+      s.push('file is not exist')
+      s.push(null)
+      s.pipe(ctx.proxyToClientResponse)
     }
     global.commit('ADD_RECORDS', copyInfo)
-    fs.createReadStream(mactchResult).pipe(ctx.proxyToClientResponse)
   } else { // http or https request
     request({method: copyInfo.method, uri: mactchResult}, (err, response, body) => {
       if (err) throw err

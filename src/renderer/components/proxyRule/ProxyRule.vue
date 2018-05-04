@@ -1,19 +1,19 @@
 <template>
   <div class="proxy-rule">
     <div class="add-rule-button">
-      <el-button icon="el-icon-plus" @click="handleAddNewRule">默认按钮</el-button>
+      <el-button icon="el-icon-plus" @click="handleAddNewRule">添加规则</el-button>
       <!-- addRuleDialog -->
       <el-dialog
         :visible.sync="showAddRuleDialog">
-        <span class="title" slot="title">标题</span>
+        <span class="title" slot="title">添加</span>
         <el-form label-position="left" :model="newRule" label-width="80px" :rules="rules" ref="addRuleTable">
           <el-form-item label="描述" prop="desc">
             <el-input v-model="newRule.desc" placeholder="123"></el-input>
           </el-form-item>
-          <el-form-item label="Match" prop="match">
+          <el-form-item label="匹配" prop="match">
             <el-input v-model="newRule.match" placeholder="123"></el-input>
           </el-form-item>
-          <el-form-item label="Repace" prop="replace">
+          <el-form-item label="替换" prop="replace">
             <el-col :span="16">
               <el-input v-model="newRule.replace" placeholder="123"></el-input>
             </el-col>

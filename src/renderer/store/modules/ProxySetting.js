@@ -3,6 +3,7 @@ const {proxySettingDB} = require('../../../utils/localDatabase')
 const state = {
   proxySetting: {},
   isProxyServerStart: false,
+  isServerError: false,
   localIP: getIPAdress()
 }
 function getIPAdress () {
@@ -21,10 +22,11 @@ const mutations = {
   LOAD_PROXY_SETTING (state, doc) {
     if (doc) {
       state.proxySetting = doc
-    } else {
+    } else { // default value
       state.proxySetting = {
         port: 8888,
         ramSize: 200,
+        autoBind: true,
         ignoreCache: true
       }
     }
@@ -39,10 +41,14 @@ const mutations = {
     state.proxySetting[key] = value
   },
   START_SERVER (state) {
+    state.isServerError = false
     state.isProxyServerStart = true
   },
   STOP_SERVER (state) {
     state.isProxyServerStart = false
+  },
+  SERVER_ERROR (state) {
+    state.isServerError = true
   }
 }
 

@@ -1,41 +1,10 @@
 <template>
   <div class="record-list">
-    <el-table
-      :data="records"
-      height="100%"
-      @row-click="handleCurrentRecord"
-      :row-class-name="highlightMatchedRow"
-      style="width: 100%">
-      <el-table-column
-        prop="fullUrl"
-        show-overflow-tooltip
-        label="URL">
-      </el-table-column>
-      <el-table-column
-        prop="method"
-        width="80"
-        label="Method">
-      </el-table-column>
-      <el-table-column
-        prop="statusCode"
-        width="80"
-        label="Code">
-      </el-table-column>
-      <el-table-column
-        prop="mime"
-        show-overflow-tooltip
-        width="150"
-        label="Mime">
-      </el-table-column>
-      <el-table-column
-        prop="start"
-        width="80"
-        label="start">
-      </el-table-column>
-    </el-table>
-  <transition name="slide-detail">
-    <record-detail v-show="showRecordDetail" @closePanel="showRecordDetail = false"></record-detail>
-  </transition>
+    <div class="list-type-menu">
+      <router-link to="/record-list/tree-view"><el-button>树状列表</el-button></router-link>
+      <router-link to="/record-list/sequence-view"><el-button>顺序列表</el-button></router-link>
+    </div>
+    <router-view/>
   </div>  
 </template>
 
@@ -99,21 +68,18 @@ export default {
 <style lang="less">
 .record-list{
   height: 100%;
-  .success-row {
-    background-color: #f0f9eb!important;
-}
-}
+  display: flex;
+  flex-direction: column;
+  .list-type-menu{
+    height: 10%;
+    .router-link-active{
+      .el-button {
+        background-color: #67c23a;
+        border-color: #67c23a;
+        color:#fff;
+      }
+    }
+  }
 
-
-
-.slide-detail-enter-active {
-  transition: all .3s ease;
-}
-.slide-detail-leave-active {
-  transition: all .3s ease;
-}
-.slide-detail-enter, .slide-detail-leave-active {
-  transform: translate3d(200px,0,0);
-  opacity: 0;
 }
 </style>

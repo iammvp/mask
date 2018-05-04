@@ -1,17 +1,30 @@
 <template>
   <div class="left-menu">
-    <router-link to="/"><div class="menu-item">{{$lang.leftMenu.records}}</div></router-link>
+    <router-link to="/record-list"><div class="menu-item">{{$lang.leftMenu.records}}</div></router-link>
     <router-link to="/proxy-rule"><div class="menu-item">{{$lang.leftMenu.rules}}</div></router-link>
-    <div class="proxy-address">
-      {{ sizeOfRecords}}
+    <div class="bottom">
+      <img :src="githubIcon" alt="" @click="handleClickGithub">
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { shell } from 'electron'
+import githubIcon from '../assets/github-logo.png'
 export default {
   name: 'LeftMenu',
+  data () {
+    this.githubIcon = githubIcon
+    return {
+
+    }
+  },
+  methods: {
+    handleClickGithub () {
+      shell.openExternal('https://github.com/iammvp/mask')
+    }
+  },
   computed: {
     ...mapState({
       isProxyServerStart: state => state.ProxySetting.isProxyServerStart,
@@ -41,16 +54,19 @@ export default {
         background: #303133;
       }
     }
-    .proxy-address{
+    .bottom{
       margin-top: auto;
       height: 50px;
       display: flex;
       font-size: 18px;
-      color: #409EFF;
+      color: #fff;
       justify-content: center;
       align-items: center;
+      img{
+        cursor: pointer;
+      }
     }
-    .router-link-exact-active{
+    .router-link-active{
       .menu-item{
         background: #303133;
         border-left: 5px solid #67C23A;
