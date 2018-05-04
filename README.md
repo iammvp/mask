@@ -33,7 +33,7 @@ Mask 是一个开源的跨平台的抓包工具。它是通过electron+vue开发
 
 ## 界面
 
-[]('./readmeImage/cn/introduction.png')
+[](./readmeImage/cn/introduction.png)
 
 ## 拦截规则
 
