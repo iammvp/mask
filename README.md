@@ -23,7 +23,7 @@ Mask 是一个开源的跨平台的抓包工具。它是通过electron+vue开发
 ### iphone 安装证书
 
 1. 设置代理
-2. 在 Mask 证书弹窗扫码二维码(若未自动跳转,请选择在*Safari中打开*)或者在 Safari 打开 'http://getca.mask'
+2. 在 Mask 证书弹窗扫描二维码(若未自动跳转,请选择在*Safari中打开*)或者在 Safari 打开 'http://getca.mask'
 3. 选择允许，然后选择安装
 4. 在 系统设置 - 通用 - 关于本机 - 证书信任设置 里打开对 Mask 证书的信任
 
@@ -33,7 +33,7 @@ Mask 是一个开源的跨平台的抓包工具。它是通过electron+vue开发
 
 ## 界面
 
-[]('./readmeImage/cn/introduction.png')
+![](./readmeImage/cn/introduction.png)
 
 ## 拦截规则
 
