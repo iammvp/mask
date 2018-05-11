@@ -18,7 +18,7 @@ function communication () {
       proxyServer.start()
     }
   })
-  ipcMain.on('loadProxySettingReady', (event) => {
+  ipcMain.on('loadProxyRuleReady', (event) => {
     loadStatus.push('loadProxyRuleReady')
     if (loadStatus.length === 2) {
       // all loaded we can start server

@@ -31,7 +31,8 @@
       }
     ],
     "files": [
-      "dist/electron/**/*"
+      "dist/electron/**/*",
+      "src/lang/**/*"
     ],
     "mac": {
       "target": [

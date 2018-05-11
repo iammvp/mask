@@ -12,7 +12,7 @@
         <div class="title">Body</div>
         <p class="from-cache" v-if="selectedRecord.statusCode === 304">数据来自缓存, chrome下 cmd+shfit+r 强刷新</p>
         <pre v-highlightjs="selectedRecord.responseBody" v-else-if="selectedRecord.mime.indexOf('html') !== -1"><code class="javascript"></code></pre>
-        <pre v-highlightjs="beautify(selectedRecord.responseBody, { indent_size: 4, space_in_empty_paren: true })" v-else-if="selectedRecord.mime.indexOf('text') !== -1 || selectedRecord.mime === 'application/javascript' || selectedRecord.mime=== 'application/json'"><code class="javascript"></code></pre>
+        <pre v-highlightjs="beautify(selectedRecord.responseBody, { indent_size: 2, space_in_empty_paren: true })" v-else-if="selectedRecord.mime.indexOf('text') !== -1 || selectedRecord.mime === 'application/javascript' || selectedRecord.mime=== 'application/json'"><code class="javascript"></code></pre>
         <div class="image-preiview" v-else-if="selectedRecord.mime.indexOf('image') !== -1">
           <img :src="selectedRecord.responseBody" alt="">
         </div>

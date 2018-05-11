@@ -90,13 +90,13 @@ export default {
       },
       rules: {
         desc: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
+          { required: true, message: '请输入规则描述', trigger: 'blur' }
         ],
         match: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
+          { required: true, message: '请输入匹配的url', trigger: 'blur' }
         ],
         replace: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
+          { required: true, message: '请输入替换的url或者路径', trigger: 'blur' }
         ]
       }
     }

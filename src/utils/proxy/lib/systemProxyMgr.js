@@ -74,12 +74,12 @@ macProxyManager.enableGlobalProxy = (port) => {
   }
   const networkType = macProxyManager.networkType || macProxyManager.getNetworkType()
 
-  return execSync(`networksetup -setwebproxy ${networkType} 127.0.0.1 ${port} && networksetup -setproxybypassdomains ${networkType} 127.0.0.1 localhost;networksetup -setsecurewebproxy ${networkType} 127.0.0.1 ${port} && networksetup -setproxybypassdomains ${networkType} 127.0.0.1 localhost`)
+  return execSync(`networksetup -setwebproxy ${networkType} 127.0.0.1 ${port} && networksetup -setsecurewebproxy ${networkType} 127.0.0.1 ${port}`)
 }
 
 macProxyManager.disableGlobalProxy = () => {
   const networkType = macProxyManager.networkType || macProxyManager.getNetworkType()
-  return execSync(`networksetup -setwebproxystate ${networkType} off;networksetup -setsecurewebproxystate ${networkType} off`)
+  return execSync(`networksetup -setwebproxystate ${networkType} off && networksetup -setsecurewebproxystate ${networkType} off`)
 }
 
 macProxyManager.getProxyState = () => {

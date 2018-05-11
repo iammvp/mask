@@ -25,13 +25,13 @@ export default {
   methods: {
     handleClickDownload () {
       const options = {
-        defaultPath: '~/rootCA.crt'
+        defaultPath: '~/maskCA.crt'
       }
       remote.dialog.showSaveDialog(remote.getCurrentWindow(), options, (filename) => {
         if (filename === undefined) {
           return
         }
-        const caPath = path.join(remote.getGlobal('rootPath'), '../.mask-ca/certs/ca.pem')
+        const caPath = path.join(remote.app.getPath('userData'), './.mask-ca/certs/ca.pem')
         fs.readFile(caPath, 'utf8', (err, file) => {
           if (err) throw err
           fs.writeFile(filename, file, (err) => {

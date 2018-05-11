@@ -11,12 +11,8 @@ const updater = require('./updater')
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
-/* global variables  */
-global.rootPath = path.resolve(__dirname, '../')
-global.lang = lang()
-/* global variables  */
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
@@ -27,6 +23,9 @@ function createWindow () {
   /**
    * Initial window options
    */
+  /* global variables  */
+  global.lang = lang()
+  /* global variables  */
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
