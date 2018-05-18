@@ -41,7 +41,7 @@ const mutations = {
   },
   ADD_RECORDS (state, newRecord) {
     state.records.push(newRecord)
-    state.recordsTree = _.defaultsDeep({}, state.recordsTree, parseUrlToTree(newRecord))
+    // state.recordsTree = _.defaultsDeep({}, state.recordsTree, parseUrlToTree(newRecord))
   },
   SELECT_RECORD (state, record) {
     state.selectedRecord = record
