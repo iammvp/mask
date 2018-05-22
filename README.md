@@ -46,8 +46,8 @@ Mask 是一个开源的跨平台的抓包工具。它是通过electron+vue开发
 ## 拦截规则
 
 - 匹配和替换都支持模糊匹配，只需要在最后添加*，例如：
-  - 匹配：http://example1.mask/\*，替换：http://example2.mask，会让 http://example1.mask/page1.html 和 http://example1.mask/page2.html 都替换成 http://example2.mask
-  - 匹配：http://example1.mask/\*，替换：http://example2.mask/\*，会让 http://example1.mask/page1.html 替换成 http://example2.mask/page1.html；而 http://example1.mask/page2.html 会替换成 http://example2.mask/page2.html
+  - 匹配：http://example1.mask/&#42;，替换：http://example2.mask，会让 http://example1.mask/page1.html 和 http://example1.mask/page2.html 都替换成 http://example2.mask
+  - 匹配：http://example1.mask/&#42;，替换：http://example2.mask/&#42;，会让 http://example1.mask/page1.html 替换成 http://example2.mask/page1.html；而 http://example1.mask/page2.html 会替换成 http://example2.mask/page2.html
 - 如果多条规则匹配到相同的请求地址，则只有第一条会起效果
 
 问题
