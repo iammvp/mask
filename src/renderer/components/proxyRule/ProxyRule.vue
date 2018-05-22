@@ -33,6 +33,7 @@
     <div class="rule-lists">
       <el-table
       :data="ruleLists"
+      v-show="ruleLists.length !== 0"
       stripe
       height="100%"
       style="width: 100%">

@@ -1,10 +1,6 @@
 <template>
   <div class="app-top">
-    <el-tooltip class="item" effect="light" placement="bottom">
-      <div slot="content">清除记录</div>
-      <i class="el-icon-delete clear" @click="clearRecords"></i>
-    </el-tooltip>
-
+    <i class="el-icon-delete clear" @click="clearRecords"></i>
     <el-input class="filter"
     v-show="this.$route.path === '/record-list/sequence-view'"
     v-model="recordFilter"

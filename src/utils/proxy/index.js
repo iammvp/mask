@@ -177,11 +177,11 @@ function replaceMatch (mactchResult, ctx, requestInfo) {
       requestInfo.statusCode = 404
       requestInfo.responseBody = 'file not exist'
       ctx.proxyToClientResponse.writeHead(404)
-      global.commit('ADD_RECORDS', requestInfo)
+      global.dispatch('addRecords', requestInfo)
       requestInfo = null
       ctx.proxyToClientResponse.end('file not exist')
     }
-    global.commit('ADD_RECORDS', requestInfo)
+    global.dispatch('addRecords', requestInfo)
     requestInfo = null
   } else { // http or https request
     const newReq = request({method: requestInfo.method, uri: mactchResult}, (err, response, body) => {
@@ -189,7 +189,7 @@ function replaceMatch (mactchResult, ctx, requestInfo) {
         requestInfo.statusCode = 500
         requestInfo.responseBody = 'server error'
         ctx.proxyToClientResponse.writeHead(500)
-        global.commit('ADD_RECORDS', requestInfo)
+        global.dispatch('addRecords', requestInfo)
         requestInfo = null
         ctx.proxyToClientResponse.end('server error')
       } else {
@@ -201,7 +201,7 @@ function replaceMatch (mactchResult, ctx, requestInfo) {
         } else if (requestInfo.mime.indexOf('text') !== -1 || requestInfo.mime === 'application/json' || requestInfo.mime === 'application/javascript') {
           requestInfo.responseBody = body.toString('utf8')
         }
-        global.commit('ADD_RECORDS', requestInfo)
+        global.dispatch('addRecords', requestInfo)
         requestInfo = null
       }
     })

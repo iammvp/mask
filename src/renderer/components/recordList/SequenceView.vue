@@ -1,6 +1,7 @@
 <template>
   <div class="sequence-view">
     <el-table
+      v-show="records.length !== 0"
       :data="records"
       height="100%"
       @row-click="handleCurrentRecord"
