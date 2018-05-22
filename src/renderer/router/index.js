@@ -6,7 +6,7 @@ import TreeView from '../components/recordList/TreeView.vue'
 import SequenceView from '../components/recordList/SequenceView.vue'
 import ProxyRule from '../components/proxyRule/ProxyRule.vue'
 Vue.use(Router)
-let preView = 'sequence-view'
+let preView = 'tree-view'
 const router = new Router({
   routes: [
     { path: '/', redirect: '/record-list' },

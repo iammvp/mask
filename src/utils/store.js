@@ -49,3 +49,4 @@ ipcMain.on('vuex-action', (event, args) => {
 
 global.state = store.state
 global.commit = store.commit
+global.dispatch = store.dispatch

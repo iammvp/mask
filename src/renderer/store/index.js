@@ -42,4 +42,5 @@ ipcRenderer.on('vuex-error', (event, error) => console.error(error))
 // export to global
 window.commit = store.commit
 window.state = store.state
+window.dispatch = store.dispatch
 export default store

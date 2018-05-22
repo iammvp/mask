@@ -1,9 +1,9 @@
 <template>
   <div class="record-list">
-    <!-- <div class="list-type-menu">
+    <div class="list-type-menu">
       <router-link to="/record-list/tree-view"><el-button>树状列表</el-button></router-link>
       <router-link to="/record-list/sequence-view"><el-button>顺序列表</el-button></router-link>
-    </div> -->
+    </div>
     <router-view/>
   </div>  
 </template>

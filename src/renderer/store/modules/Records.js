@@ -1,12 +1,16 @@
+const { remote, BrowserWindow } = require('electron')
 const sizeof = require('object-sizeof')
 const _ = require('lodash')
 const state = {
   selectedRecord: {},
   filter: '',
   records: [],
+  tempRecordsObject: {},
+  tempRecordsArray: [], //
   recordsTree: {},
   showRecordDetail: false
 }
+let timer = null
 function parseUrlToTree (record) {
   const domain = `${record.protocol}//${record.host}`
   const pathArray = record.urlPath.split('/')
@@ -35,12 +39,27 @@ const mutations = {
     state.records = []
     state.recordsTree = {}
     state.showRecordDetail = false
+    if (process.type === 'renderer') {
+      remote.getCurrentWindow().webContents.session.clearCache(function () {
+      })
+    }
   },
   SLICE_RECORDS (state) {
     state.records = state.records.slice(1)
   },
+  TEMP_SAVE_RECORDS (state, newRecord) {
+    state.tempRecordsArray.push(newRecord)
+    state.tempRecordsObject = _.defaultsDeep({}, state.tempRecordsObject, parseUrlToTree(newRecord))
+  },
   ADD_RECORDS (state, newRecord) {
-    state.records.push(newRecord)
+    state.records.push(...state.tempRecordsArray)
+    state.recordsTree = _.defaultsDeep({}, state.recordsTree, state.tempRecordsObject)
+    state.tempRecordsArray = []
+    state.tempRecordsObject = {}
+    if (process.type === 'renderer') {
+      remote.getCurrentWindow().webContents.session.clearCache(function () {
+      })
+    }
     // state.recordsTree = _.defaultsDeep({}, state.recordsTree, parseUrlToTree(newRecord))
   },
   SELECT_RECORD (state, record) {
@@ -62,9 +81,12 @@ const mutations = {
 }
 
 const actions = {
-  someAsyncTask ({ commit }) {
-    // do something async
-    commit('INCREMENT_MAIN_COUNTER')
+  addRecords ({commit}, newRecord) {
+    commit('TEMP_SAVE_RECORDS', newRecord)
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      commit('ADD_RECORDS')
+    }, 500)
   }
 }
 

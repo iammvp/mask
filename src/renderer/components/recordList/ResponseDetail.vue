@@ -31,16 +31,7 @@ export default {
   computed: {
     ...mapState({
       selectedRecord: state => state.Records.selectedRecord
-    }),
-    parseJson () {
-      let tmp
-      try {
-        tmp = JSON.parse(this.selectedRecord.responseBody)
-      } catch (error) {
-        tmp = this.selectedRecord.responseBody
-      }
-      return this.beautify(tmp, { indent_size: 2, space_in_empty_paren: true })
-    }
+    })
   }
 }
 </script>

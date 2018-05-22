@@ -26,7 +26,7 @@ const mutations = {
       state.proxySetting = {
         port: 8888,
         ramSize: 200,
-        autoBind: true,
+        autoBind: false,
         ignoreCache: true
       }
     }
