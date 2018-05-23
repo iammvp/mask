@@ -14,7 +14,13 @@ const proxyRuleDB = new Datastore({
   filename: path.join(dbPath, '/ruleLists.db')
 })
 
+const privilegeDB = new Datastore({
+  autoload: true,
+  filename: path.join(dbPath, '/privilege.db')
+})
+
 module.exports = {
   proxySettingDB,
-  proxyRuleDB
+  proxyRuleDB,
+  privilegeDB
 }

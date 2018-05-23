@@ -17,26 +17,64 @@
 </template>
 
 <script>
-  import LeftMenu from './components/LeftMenu.vue'
-  import AppTop from './components/appTop/AppTop.vue'
-  import { mapActions } from 'vuex'
-  export default {
-    name: 'maskApp',
-    components: {
-      LeftMenu,
-      AppTop
-    },
-    methods: {
-      ...mapActions({
-        loadProxySetting: 'loadProxySetting',
-        loadRuleList: 'loadRuleList'
-      })
-    },
-    mounted () {
-      this.loadProxySetting()
-      this.loadRuleList()
-    }
+import { remote } from 'electron'
+import LeftMenu from './components/LeftMenu.vue'
+import AppTop from './components/appTop/AppTop.vue'
+import { mapActions, mapState, mapMutations } from 'vuex'
+const prompt = require('electron-prompt')
+export default {
+  name: 'maskApp',
+  components: {
+    LeftMenu,
+    AppTop
+  },
+  methods: {
+    ...mapMutations({
+      setPassword: 'SET_PASSWORD'
+    }),
+    ...mapActions({
+      loadProxySetting: 'loadProxySetting',
+      loadRuleList: 'loadRuleList',
+      loadUserInfo: 'loadUserInfo'
+    })
+  },
+  computed: {
+    ...mapState({
+      privilegeState: state => state.Privilege.privilegeState
+    })
+  },
+  mounted () {
+    this.loadUserInfo()
+    this.$store.watch(
+      (state) => {
+        return state.Privilege.privilegeState
+      },
+      (val) => {
+        console.log(val)
+        // watch proxySetting.autoBind set system proxy
+        if (val === true) {
+          this.loadProxySetting()
+          this.loadRuleList()
+        } else {
+          prompt({
+            title: '管理员密码',
+            label: 'Mask设置本地代理需要管理员权限',
+            inputAttrs: {
+              type: 'password'
+            }
+          }, remote.getCurrentWindow())
+            .then((r) => {
+              this.setPassword(r)
+            })
+            .catch(console.error)
+        }
+      },
+      {
+        deep: false
+      }
+    )
   }
+}
 </script>
 
 <style lang="less">

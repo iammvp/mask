@@ -1,4 +1,4 @@
-const { remote, BrowserWindow } = require('electron')
+const { remote } = require('electron')
 const sizeof = require('object-sizeof')
 const _ = require('lodash')
 const state = {

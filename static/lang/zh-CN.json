@@ -1,7 +1,7 @@
 {
   "leftMenu": {
     "records": "抓包记录",
-    "rules": "拦截规则"
+    "rules": "转发规则"
   },
   "appTop":{
     "filterPlaceholder":"列表过滤",

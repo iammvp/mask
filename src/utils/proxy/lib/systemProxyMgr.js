@@ -52,6 +52,27 @@ function execSync (cmd) {
  */
 
 const macProxyManager = {}
+macProxyManager.cmdPrefix = `/usr/bin/osascript -e 'do shell script`
+macProxyManager.cmdSuffix = `with administrator privileges`
+macProxyManager.getPrivilegeState = () => {
+  const user = global.state.Privilege.user
+  child_process.exec(`${macProxyManager.cmdPrefix} "echo hello" ${macProxyManager.cmdSuffix} user name "${user.username}" password "${user.password}"'`, (err, stdout, stderr) => {
+    if (err) { // password error
+      global.commit('NOT_GRANT_PRIVILEGE')
+    } else { // get privilege
+      global.commit('GRANTED_PRIVILEGE')
+      if (global.state.Privilege.isLoad === false) {
+        // not load, so we need insert in local database
+        global.dispatch('insertUserInfo', user)
+      } else {
+        if (global.state.Privilege.hasError === true) {
+          // load but has error, we need update our database
+          global.dispatch('updateUserInfo', user)
+        }
+      }
+    }
+  })
+}
 
 macProxyManager.getNetworkType = () => {
   for (let i = 0; i < networkTypes.length; i++) {
@@ -73,13 +94,22 @@ macProxyManager.enableGlobalProxy = (port) => {
     return
   }
   const networkType = macProxyManager.networkType || macProxyManager.getNetworkType()
-
-  return execSync(`networksetup -setwebproxy ${networkType} 127.0.0.1 ${port} && networksetup -setsecurewebproxy ${networkType} 127.0.0.1 ${port}`)
+  const cmd = `networksetup -setwebproxy ${networkType} 127.0.0.1 ${port} && networksetup -setsecurewebproxy ${networkType} 127.0.0.1 ${port}`
+  const user = global.state.Privilege.user
+  child_process.exec(`${macProxyManager.cmdPrefix} "${cmd}" ${macProxyManager.cmdSuffix} user name "${user.username}" password "${user.password}"'`, (err, stdout, stderr) => {
+    if (err) throw err
+  })
+  // return execSync(`networksetup -setwebproxy ${networkType} 127.0.0.1 ${port} && networksetup -setsecurewebproxy ${networkType} 127.0.0.1 ${port}`)
 }
 
 macProxyManager.disableGlobalProxy = () => {
   const networkType = macProxyManager.networkType || macProxyManager.getNetworkType()
-  return execSync(`networksetup -setwebproxystate ${networkType} off && networksetup -setsecurewebproxystate ${networkType} off`)
+  const cmd = `networksetup -setwebproxystate ${networkType} off && networksetup -setsecurewebproxystate ${networkType} off`
+  const user = global.state.Privilege.user
+  child_process.exec(`${macProxyManager.cmdPrefix} "${cmd}" ${macProxyManager.cmdSuffix} user name "${user.username}" password "${user.password}"'`, (err, stdout, stderr) => {
+    if (err) throw err
+  })
+  // return execSync(`networksetup -setwebproxystate ${networkType} off && networksetup -setsecurewebproxystate ${networkType} off`)
 }
 
 macProxyManager.getProxyState = () => {
