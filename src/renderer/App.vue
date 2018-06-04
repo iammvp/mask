@@ -50,8 +50,6 @@ export default {
         return state.Privilege.privilegeState
       },
       (val) => {
-        console.log(val)
-        // watch proxySetting.autoBind set system proxy
         if (val === true) {
           this.loadProxySetting()
           this.loadRuleList()

@@ -1,6 +1,7 @@
 <template>
   <div class="app-top">
     <i class="el-icon-delete clear" @click="clearRecords"></i>
+    <i class="el-icon-refresh refresh" @click="refreshPage"></i>
     <el-input class="filter"
     v-show="this.$route.path === '/record-list/sequence-view'"
     v-model="recordFilter"
@@ -68,7 +69,8 @@ export default {
   methods: {
     ...mapMutations({
       clearRecords: 'CLEAR_RECORDS',
-      changeFilter: 'CHANGE_FILTER'
+      changeFilter: 'CHANGE_FILTER',
+      refreshPage: 'REFRESH_PAGE'
     }),
     closeProxySettingPopover () {
       this.showProxySettingPopover = false
@@ -98,7 +100,7 @@ export default {
   .filter{
     width: 200px;
   }
-  .clear,.setting,.info,.cert{
+  .clear,.refresh,.setting,.info,.cert{
     width: 38px;
     border-radius: 5px;
     margin-right: 5px;
@@ -107,10 +109,16 @@ export default {
     align-items: center;
     cursor: pointer;
   }
-  .clear{
+  .refresh{
     height: 40px;
     width: 40px;
     background: #F56C6C;
+    color: #fff;
+  }
+  .clear{
+    height: 40px;
+    width: 40px;
+    background: #E6A23C;
     color: #fff;
   }
   .setting,.info,.cert{

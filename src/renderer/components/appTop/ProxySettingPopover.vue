@@ -73,9 +73,15 @@ export default {
     })
   },
   mounted () {
-    ipcRenderer.on('readyForAssignProxySetting', (event) => {
+    // if proxy setting loaded, we assign it, otherwise listen for readyForAssignProxySetting event
+    if (this.proxySetting.hasOwnProperty('port')) {
       this.resetNewProxySetting()
-    })
+    } else {
+      ipcRenderer.on('readyForAssignProxySetting', (event) => {
+        this.resetNewProxySetting()
+      })
+    }
+    // watch for proxy setting change
     this.$store.watch(
       (state) => {
         return this.proxySetting.port

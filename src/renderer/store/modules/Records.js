@@ -35,12 +35,22 @@ const getters = {
   sizeOfRecords: state => ((sizeof(state.records) + sizeof(state.recordsTree)) / 1024 / 1024).toFixed(2)
 }
 const mutations = {
-  CLEAR_RECORDS (state) {
+  CLEAR_RECORDS (state) { // clear all record and reload page
     state.records = []
     state.recordsTree = {}
     state.showRecordDetail = false
     if (process.type === 'renderer') {
       remote.getCurrentWindow().webContents.session.clearCache(function () {
+      })
+    }
+  },
+  REFRESH_PAGE (state) { // clear all record and reload page, for clear cache and save ram purpose
+    state.records = []
+    state.recordsTree = {}
+    state.showRecordDetail = false
+    if (process.type === 'renderer') {
+      remote.getCurrentWindow().webContents.reloadIgnoringCache(function () {
+        console.log('1111111111')
       })
     }
   },
