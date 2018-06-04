@@ -11,8 +11,13 @@
       <div class="response-body">
         <div class="title">Body</div>
         <p class="from-cache" v-if="selectedRecord.statusCode === 304">数据来自缓存, chrome下 cmd+shfit+r 强刷新</p>
+        <div class="json" v-else-if="selectedRecord.mime=== 'application/json'">
+          <tree-view
+            :data="getJson">
+          </tree-view>
+        </div>
         <pre v-highlightjs="selectedRecord.responseBody" v-else-if="selectedRecord.mime.indexOf('html') !== -1"><code class="javascript"></code></pre>
-        <pre v-highlightjs="beautify(selectedRecord.responseBody, { indent_size: 2, space_in_empty_paren: true })" v-else-if="selectedRecord.mime.indexOf('text') !== -1 || selectedRecord.mime === 'application/javascript' || selectedRecord.mime=== 'application/json'"><code class="javascript"></code></pre>
+        <pre v-highlightjs="beautify(selectedRecord.responseBody, { indent_size: 2, space_in_empty_paren: true })" v-else-if="selectedRecord.mime.indexOf('text') !== -1 || selectedRecord.mime === 'application/javascript'"><code class="javascript"></code></pre>
         <div class="image-preiview" v-else-if="selectedRecord.mime.indexOf('image') !== -1">
           <img :src="selectedRecord.responseBody" alt="">
         </div>
@@ -31,12 +36,15 @@ export default {
   computed: {
     ...mapState({
       selectedRecord: state => state.Records.selectedRecord
-    })
+    }),
+    getJson () {
+      return JSON.parse(this.selectedRecord.responseBody)
+    }
   }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .response{
   flex: 1;
   display: flex;
@@ -57,7 +65,15 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
-    pre{
+    .json,.tree-view-wrapper,.tree-view-item{
+      display: flex;
+      flex: 1;
+      background: #F0F0F0;
+    }
+    .tree-view-item-key{
+      color: #880000;
+    }
+    pre,{
       flex: 1;
       overflow: auto;
       background: #F0F0F0;

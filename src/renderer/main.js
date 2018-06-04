@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import { remote } from 'electron'
 
 import App from './App'
+import TreeView from 'vue-json-tree-view'
 import router from './router'
 import store from './store'
 
@@ -16,6 +17,7 @@ Vue.prototype.$lang = remote.getGlobal('lang')
 console.log(remote.getGlobal('lang'))
 Vue.use(VueHighlightJS)
 Vue.use(ElementUI)
+Vue.use(TreeView)
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
