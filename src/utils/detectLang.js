@@ -10,7 +10,7 @@ function lang () {
   if (fs.existsSync(filePath)) {
     langObj = fs.readFileSync(filePath, 'utf8')
   } else {
-    const enLangPath = path.join(__static, '/lang/en_US.json')
+    const enLangPath = path.join(__static, '/lang/en-US.json')
     langObj = fs.readFileSync(enLangPath, 'utf8')
   }
   return JSON.parse(langObj)

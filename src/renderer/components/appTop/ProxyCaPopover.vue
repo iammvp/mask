@@ -1,13 +1,13 @@
 <template>
   <div class="proxy-ca-popover">
-    <p class="desc" >下载证书:</p>
-    <el-button type="success" round @click="handleClickDownload">点击下载</el-button>
-    <p class="or">OR</p>
+    <p class="desc" >{{$lang.appTop.proxyCaPopover.desc}}</p>
+    <el-button type="success" round @click="handleClickDownload">{{$lang.appTop.proxyCaPopover.clickDownload}}</el-button>
+    <p class="or">{{$lang.appTop.proxyCaPopover.or}}</p>
     <div class="qrcode">
       <img :src="qraddress" alt="" srcset="">
     </div>
-    <div class="urlOr">OR</div>
-    <div class="url" @click="handleClickUrl">访问http://getca.mask</div>
+    <div class="urlOr">{{$lang.appTop.proxyCaPopover.or}}</div>
+    <div class="url" @click="handleClickUrl">{{$lang.appTop.proxyCaPopover.visit}}</div>
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
           if (err) throw err
           fs.writeFile(filename, file, (err) => {
             if (err) throw err
-            this.$notify.success({message: '下载CA成功', duration: 1200})
+            this.$notify.success({message: this.$lang.appTop.proxyCaPopover.downloadSuccess, duration: 1200})
           })
         })
       })

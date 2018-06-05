@@ -55,8 +55,8 @@ export default {
           this.loadRuleList()
         } else {
           prompt({
-            title: '管理员密码',
-            label: 'Mask设置本地代理需要管理员权限',
+            title: this.$lang.app.administratorPrompt.title,
+            label: this.$lang.app.administratorPrompt.label,
             inputAttrs: {
               type: 'password'
             }

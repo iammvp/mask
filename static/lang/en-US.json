@@ -1,6 +1,109 @@
 {
-  "menu": {
+  "common":{
+    "confirm":"Confirm",
+    "cancel":"Cancel",
+    "edit":"Edit",
+    "delete":"Delete"
+  },
+  "app":{
+    "administratorPrompt":{
+      "title":"Administrator Password",
+      "label":"Administrator password (only once)"
+    }
+  },
+  "leftMenu": {
     "records": "Records",
-    "rules": "Rules"
+    "rules": "Proxy Rules"
+  },
+  "appTop":{
+    "filterPlaceholder":"fliter sequnece view",
+    "proxyCaPopover":{
+      "desc":"Download CA:",
+      "clickDownload":"Download",
+      "or":"OR",
+      "visit":"Visit http://getca.mask",
+      "downloadSuccess":"Download CA is successful"
+    },
+    "proxyInfoPopover":{
+      "status":"Status:",
+      "address":"Address:",
+      "ram":"Data size:",
+      "started":"On",
+      "notStarted":"Off"
+    },
+    "proxySettingPopover":{
+      "label":{
+        "port":"Port",
+        "autoBind":"Local Proxy",
+        "ramSize":"Data size(mb)"
+      },
+      "validation":{
+        "portRule1":"port is required",
+        "portRule2":"port is an interge between 1000 and 9999",
+        "ramRule1":"Data size limitation is required",
+        "ramRule2":"minimum 50"
+      }
+    }
+  },
+  "proxyRule":{
+    "addRule":"Add rule",
+    "descPlaceholder":"Rule description",
+    "matchPlaceholder":"From",
+    "replacePlaceholder":"To",
+    "localFile":"Local file",
+    "label":{
+      "desc":"Description",
+      "match":"Match",
+      "replace":"Replace",
+      "status":"Status",
+      "action":"Action"
+    },
+    "validation":{
+      "descRule":"rule description is required",
+      "matchRule":"match url is required",
+      "replaceRule":"replace is required"
+    },
+    "dialogTitle":"Select local file"
+  },
+  "recordList":{
+    "treeView":"Tree",
+    "sequenceView":"Sequence"
+  },
+  "sequenceView":{
+    "label":{
+      "url":"URL",
+      "method":"Method",
+      "code":"Code",
+      "mime":"Mime",
+      "start":"Time"
+    }
+  },
+  "recordDetail":{
+    "label":{
+      "request":"Request",
+      "response":"Response"
+    }
+  },
+  "requestDetail":{
+    "title":{
+      "general":"General",
+      "header":"Request Header",
+      "params":"Parameters"
+    }
+  },
+  "responseDetail":{
+    "title":{
+      "header":"Response Header",
+      "body":"Response Body"
+    },
+    "cacheDesc":"Data comes from cache, you can use cmd+shfit+r to force refresh on Chrome"
+  },
+  "updater":{
+    "updateAvailable":"The new version is detected, start downloading on background",
+    "updateDownloaded":"Download is successful, restart is required for installation"
+  },
+  "proxyLib":{
+    "portErrorTitle":"Start proxy sever failed",
+    "portErrorReason":"already be used"
   }
 }

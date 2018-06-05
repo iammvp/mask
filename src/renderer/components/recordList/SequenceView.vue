@@ -10,28 +10,28 @@
       <el-table-column
         prop="fullUrl"
         show-overflow-tooltip
-        label="URL">
+        :label="$lang.sequenceView.label.url">
       </el-table-column>
       <el-table-column
         prop="method"
         width="80"
-        label="Method">
+        :label="$lang.sequenceView.label.method">
       </el-table-column>
       <el-table-column
         prop="statusCode"
         width="80"
-        label="Code">
+        :label="$lang.sequenceView.label.code">
       </el-table-column>
       <el-table-column
         prop="mime"
         show-overflow-tooltip
         width="150"
-        label="Mime">
+        :label="$lang.sequenceView.label.mime">
       </el-table-column>
       <el-table-column
         prop="start"
         width="80"
-        label="start">
+        :label="$lang.sequenceView.label.start">
       </el-table-column>
     </el-table>
   <transition name="slide-detail">
@@ -50,7 +50,7 @@ export default {
   methods: {
     ...mapMutations({
       clickRecord: 'SELECT_RECORD',
-      sliceRecords: 'SLICE_RECORDS',
+      outOfSizeLimitation: 'OUT_OF_SIZE_LIMITATION',
       openRecordDetail: 'OPEN_RECORD_DETAIL',
       closeRecordDetail: 'CLOSE_RECORD_DETAIL'
     }),
@@ -84,8 +84,7 @@ export default {
       },
       (val) => {
         if (val > this.proxySetting.ramSize) {
-          console.log(val)
-          this.sliceRecords()
+          this.outOfSizeLimitation()
         }
       },
       {

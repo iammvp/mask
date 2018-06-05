@@ -21,7 +21,7 @@ const proxyServer = {
       // ctx may be null
       global.commit('SERVER_ERROR')
       if (err.code === 'EADDRINUSE') {
-        dialog.showErrorBox('开启服务器失败', `端口${proxyPort}已被占用`)
+        dialog.showErrorBox(global.lang.proxyLib.portErrorTitle, `${proxyPort} ${global.lang.proxyLib.portErrorReason}`)
       }
     })
     proxy.onRequest(function (ctx, callback) {
@@ -74,8 +74,14 @@ const proxyServer = {
         requestInfo.responseHeader = ctx.serverToProxyResponse.headers
         if (requestInfo.mime.indexOf('image') !== -1) {
           requestInfo.responseBody = 'data:' + requestInfo.responseHeader['content-type'] + ';base64,' + Buffer.concat(body).toString('base64')
-        } else if (requestInfo.mime.indexOf('text') !== -1 || requestInfo.mime === 'application/json' || requestInfo.mime === 'application/javascript') {
+        } else if (requestInfo.mime.indexOf('text') !== -1 || requestInfo.mime === 'application/javascript') {
           requestInfo.responseBody = body.toString()
+        } else if (requestInfo.mime === 'application/json') {
+          try {
+            requestInfo.responseBody = JSON.parse(Buffer.concat(body).toString())
+          } catch (error) {
+            requestInfo.responseBody = ''
+          }
         } else {
           requestInfo.responseBody = ''
         }
@@ -109,7 +115,6 @@ const proxyServer = {
   restart () {
     this.close()
     clearTimeout(timer)
-    console.log(proxy)
     timer = setTimeout(() => {
       proxy = Proxy()
       this.start()

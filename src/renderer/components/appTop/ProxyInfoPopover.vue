@@ -1,9 +1,9 @@
 <template>
   <div class="proxy-info-popover">
-    <div class="server-status">状态:<span :class="{red:!isProxyServerStart}">{{serverStatus}}</span></div>
+    <div class="server-status">{{$lang.appTop.proxyInfoPopover.status}}<span :class="{red:!isProxyServerStart}">{{serverStatus}}</span></div>
     <template v-if="isProxyServerStart === true">
-      <div class="server-address">地址:<span>{{`${localIP}:${proxyPort}`}}</span></div>
-      <div class="ram-size">占用内存:<span class="red">{{sizeOfRecords}}</span></div>
+      <div class="server-address">{{$lang.appTop.proxyInfoPopover.address}}<span>{{`${localIP}:${proxyPort}`}}</span></div>
+      <div class="ram-size">{{$lang.appTop.proxyInfoPopover.ram}}<span class="red">{{sizeOfRecords}}</span></div>
     </template>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
       proxyPort: state => state.ProxySetting.proxySetting.port
     }),
     serverStatus () {
-      return this.isProxyServerStart ? '已开启' : '未开启'
+      return this.isProxyServerStart ? this.$lang.appTop.proxyInfoPopover.started : this.$lang.appTop.proxyInfoPopover.notStarted
     },
     ...mapGetters({
       sizeOfRecords: 'sizeOfRecords'

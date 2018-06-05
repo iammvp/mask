@@ -1,7 +1,7 @@
 <template>
     <div class="response" v-if="selectedRecord.hasOwnProperty('responseBody')">
       <div class="response-header">
-        <p class="title">Header</p>
+        <p class="title">{{$lang.responseDetail.title.header}}</p>
         <div class="detail">
           <div v-for="(value, key) in selectedRecord.responseHeader" :key="key">
             <b>{{key}}: </b>{{value}}
@@ -9,11 +9,11 @@
         </div>
       </div>
       <div class="response-body">
-        <div class="title">Body</div>
-        <p class="from-cache" v-if="selectedRecord.statusCode === 304">数据来自缓存, chrome下 cmd+shfit+r 强刷新</p>
+        <div class="title">{{$lang.responseDetail.title.body}}</div>
+        <p class="from-cache" v-if="selectedRecord.statusCode === 304">{{$lang.responseDetail.cacheDesc}}</p>
         <div class="json" v-else-if="selectedRecord.mime=== 'application/json'">
           <tree-view
-            :data="getJson">
+            :data="selectedRecord.responseBody">
           </tree-view>
         </div>
         <pre v-highlightjs="selectedRecord.responseBody" v-else-if="selectedRecord.mime.indexOf('html') !== -1"><code class="javascript"></code></pre>

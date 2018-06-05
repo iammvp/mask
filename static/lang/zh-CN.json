@@ -1,16 +1,109 @@
 {
+  "common":{
+    "confirm":"确定",
+    "cancel":"取消",
+    "edit":"修改",
+    "delete":"删除"
+  },
+  "app":{
+    "administratorPrompt":{
+      "title":"管理员密码",
+      "label":"Mask设置本地代理需要管理员权限(只需一次)"
+    }
+  },
   "leftMenu": {
     "records": "抓包记录",
     "rules": "转发规则"
   },
   "appTop":{
     "filterPlaceholder":"列表过滤",
-    "tips":{
-      "clearRecord":"清除列表",
-      "proxySetting":"代理设置",
-      "proxyInfo":"代理信息",
-      "rootCA":"下载证书"
+    "proxyCaPopover":{
+      "desc":"下载证书:",
+      "clickDownload":"点击下载",
+      "or":"或者",
+      "visit":"访问 http://getca.mask",
+      "downloadSuccess":"下载CA成功"
+    },
+    "proxyInfoPopover":{
+      "status":"状态:",
+      "address":"地址:",
+      "ram":"数据大小:",
+      "started":"已开启",
+      "notStarted":"未开启"
+    },
+    "proxySettingPopover":{
+      "label":{
+        "port":"端口",
+        "autoBind":"代理本机",
+        "ramSize":"数据大小(mb)"
+      },
+      "validation":{
+        "portRule1":"请输入端口号",
+        "portRule2":"端口是1000~9999之间的整数",
+        "ramRule1":"请输入数据可占用内存大小",
+        "ramRule2":"可占用内存最小50mb"
+      }
     }
-    
+  },
+  "proxyRule":{
+    "addRule":"添加规则",
+    "descPlaceholder":"规则描述",
+    "matchPlaceholder":"匹配规则",
+    "replacePlaceholder":"替换规则",
+    "localFile":"本地文件",
+    "label":{
+      "desc":"描述",
+      "match":"匹配",
+      "replace":"替换",
+      "status":"状态",
+      "action":"操作"
+    },
+    "validation":{
+      "descRule":"请输入规则描述",
+      "matchRule":"请输入匹配的url",
+      "replaceRule":"请输入替换的url或者路径"
+    },
+    "dialogTitle":"选择本地文件"
+  },
+  "recordList":{
+    "treeView":"树状列表",
+    "sequenceView":"顺序列表"
+  },
+  "sequenceView":{
+    "label":{
+      "url":"URL",
+      "method":"Method",
+      "code":"Code",
+      "mime":"Mime",
+      "start":"时间"
+    }
+  },
+  "recordDetail":{
+    "label":{
+      "request":"请求详情",
+      "response":"响应详情"
+    }
+  },
+  "requestDetail":{
+    "title":{
+      "general":"General",
+      "header":"请求头",
+      "params":"请求参数"
+    }
+  },
+  "responseDetail":{
+    "title":{
+      "header":"响应头",
+      "body":"响应主体"
+    },
+    "cacheDesc":"数据来自缓存, chrome下 cmd+shfit+r 强刷新"
+  },
+  "updater":{
+    "updateAvailable":"检测到新版本,后台自动下载,下载完成会提示",
+    "updateDownloaded":"下载成功,关闭程序会自动安装"
+  },
+  "proxyLib":{
+    "portErrorTitle":"开启服务器失败",
+    "portErrorReason":"已被占用"
   }
 }

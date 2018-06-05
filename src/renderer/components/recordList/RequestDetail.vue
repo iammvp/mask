@@ -1,7 +1,7 @@
 <template>
     <div class="request" v-if="selectedRecord.hasOwnProperty('requestHeader')">
       <div class="general">
-        <p class="title">General</p>
+        <p class="title">{{$lang.requestDetail.title.general}}</p>
         <div class="detail">
           <div v-for="(value, key) in generalInfo" :key="key">
               <b>{{key}}: </b>{{value}}
@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="request-header">
-        <p class="title">Header</p>
+        <p class="title">{{$lang.requestDetail.title.header}}</p>
         <div class="detail">
           <div v-for="(value, key) in selectedRecord.responseHeader" :key="key">
             <b>{{key}}: </b>{{value}}
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="request-params">
-        <p class="title">Query Parameters</p>
+        <p class="title">{{$lang.requestDetail.title.params}}</p>
         <div class="detail" v-if="selectedRecord.queryParams !== null">
           <pre v-highlightjs="beautify(JSON.stringify(selectedRecord.queryParams,null,2), { indent_size: 4, space_in_empty_paren: true })" ><code class="javascript"></code></pre>
         </div>

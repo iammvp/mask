@@ -14,7 +14,7 @@
     <el-popover
       ref="proxySettingPopover"
       placement="bottom"
-      width="300"
+      width="400"
       v-model="showProxySettingPopover"
       trigger="click">
       <proxy-setting-popover @closeProxySettingPopover="closeProxySettingPopover"></proxy-setting-popover>

@@ -1,10 +1,10 @@
 <template>
   <div class="record-detail">
     <el-tabs v-model="defaultTab">
-      <el-tab-pane label="Request" name="request">
+      <el-tab-pane :label="$lang.recordDetail.label.request" name="request">
         <request-detail></request-detail>
       </el-tab-pane>
-      <el-tab-pane label="Response" name="response">
+      <el-tab-pane :label="$lang.recordDetail.label.response" name="response">
         <response-detail></response-detail>
       </el-tab-pane>
     </el-tabs>

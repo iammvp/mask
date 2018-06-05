@@ -14,13 +14,13 @@ function updater (window) {
     }
   })
   autoUpdater.on('update-available', (info) => {
-    sendStatusToWindow(window, '检测到新版本,后台自动下载,下载完成会提示')
+    sendStatusToWindow(window, global.lang.updater.updateAvailable)
   })
   autoUpdater.on('error', (err) => {
     sendStatusToWindow(err)
   })
   autoUpdater.on('update-downloaded', () => {
-    sendStatusToWindow(window, '下载成功,关闭程序会自动安装')
+    sendStatusToWindow(window, global.lang.updater.updateDownloaded)
     updateReady = true
   })
 }

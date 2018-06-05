@@ -11,6 +11,14 @@ const state = {
   showRecordDetail: false
 }
 let timer = null
+function refreshPage (state) { // clear all records and reload page to release ram
+  state.records = []
+  state.recordsTree = {}
+  state.showRecordDetail = false
+  if (process.type === 'renderer') {
+    remote.getCurrentWindow().webContents.reloadIgnoringCache()
+  }
+}
 function parseUrlToTree (record) {
   const domain = `${record.protocol}//${record.host}`
   const pathArray = record.urlPath.split('/')
@@ -40,22 +48,14 @@ const mutations = {
     state.recordsTree = {}
     state.showRecordDetail = false
     if (process.type === 'renderer') {
-      remote.getCurrentWindow().webContents.session.clearCache(function () {
-      })
+      remote.getCurrentWindow().webContents.session.clearCache()
     }
   },
   REFRESH_PAGE (state) { // clear all record and reload page, for clear cache and save ram purpose
-    state.records = []
-    state.recordsTree = {}
-    state.showRecordDetail = false
-    if (process.type === 'renderer') {
-      remote.getCurrentWindow().webContents.reloadIgnoringCache(function () {
-        console.log('1111111111')
-      })
-    }
+    refreshPage(state)
   },
-  SLICE_RECORDS (state) {
-    state.records = state.records.slice(1)
+  OUT_OF_SIZE_LIMITATION (state) { // proxy data out of size limitation
+    refreshPage(state)
   },
   TEMP_SAVE_RECORDS (state, newRecord) {
     state.tempRecordsArray.push(newRecord)

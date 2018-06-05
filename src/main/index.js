@@ -27,9 +27,9 @@ function createWindow () {
   global.lang = lang()
   /* global variables  */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 691,
     useContentSize: true,
-    width: 1000
+    width: 1229
   })
   /* set menu */
   setMenu()

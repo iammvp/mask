@@ -1,30 +1,30 @@
 <template>
   <div class="proxy-rule">
     <div class="add-rule-button">
-      <el-button icon="el-icon-plus" @click="handleAddNewRule">添加规则</el-button>
+      <el-button icon="el-icon-plus" @click="handleAddNewRule">{{$lang.proxyRule.addRule}}</el-button>
       <!-- addRuleDialog -->
       <el-dialog
         :visible.sync="showAddRuleDialog">
-        <span class="title" slot="title">添加</span>
+        <span class="title" slot="title">{{$lang.proxyRule.addRule}}</span>
         <el-form label-position="left" :model="newRule" label-width="80px" :rules="rules" ref="addRuleTable">
-          <el-form-item label="描述" prop="desc">
-            <el-input v-model="newRule.desc" placeholder="123"></el-input>
+          <el-form-item :label="$lang.proxyRule.label.desc" prop="desc">
+            <el-input v-model="newRule.desc" :placeholder="$lang.proxyRule.descPlaceholder"></el-input>
           </el-form-item>
-          <el-form-item label="匹配" prop="match">
-            <el-input v-model="newRule.match" placeholder="123"></el-input>
+          <el-form-item :label="$lang.proxyRule.label.match" prop="match">
+            <el-input v-model="newRule.match" :placeholder="$lang.proxyRule.matchPlaceholder"></el-input>
           </el-form-item>
-          <el-form-item label="替换" prop="replace">
+          <el-form-item :label="$lang.proxyRule.label.replace" prop="replace">
             <el-col :span="16">
-              <el-input v-model="newRule.replace" placeholder="123"></el-input>
+              <el-input v-model="newRule.replace" :placeholder="$lang.proxyRule.replacePlaceholder"></el-input>
             </el-col>
             <el-col :span="8" class="local-file-button">
-              <el-button @click="handleSelectLocalFile">本地文件</el-button>
+              <el-button @click="handleSelectLocalFile">{{$lang.proxyRule.localFile}}</el-button>
             </el-col>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="showAddRuleDialog = false">取 消</el-button>
-          <el-button type="primary" @click="handleConfirmClicked">确 定</el-button>
+          <el-button @click="showAddRuleDialog = false">{{$lang.common.cancel}}</el-button>
+          <el-button type="primary" @click="handleConfirmClicked">{{$lang.common.confirm}}</el-button>
         </span>
       </el-dialog>
       <!-- addRuleDialog -->
@@ -40,32 +40,32 @@
       <el-table-column
         prop="isSelected"
         width="80"
-        label="状态">
+        :label="$lang.proxyRule.label.status">
         <template scope="scope"><el-checkbox :checked="scope.row.isSelected" @change="handleSelectionChange(scope.row)"></el-checkbox></template>
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="desc"
         width="80"
-        label="描述">
+        :label="$lang.proxyRule.label.desc">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="match"
-        label="Match">
+        :label="$lang.proxyRule.label.match">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="replace"
-        label="Replace">
+        :label="$lang.proxyRule.label.replace">
       </el-table-column>
       <el-table-column
         fixed="right"
-        label="操作"
+        :label="$lang.proxyRule.label.action"
         width="100">
         <template slot-scope="scope">
-          <el-button @click="handleEditRule(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="handleDeleteRule(scope.row)" type="text" size="small" >删除</el-button>
+          <el-button @click="handleEditRule(scope.row)" type="text" size="small">{{$lang.common.edit}}</el-button>
+          <el-button @click="handleDeleteRule(scope.row)" type="text" size="small" >{{$lang.common.delete}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -91,13 +91,13 @@ export default {
       },
       rules: {
         desc: [
-          { required: true, message: '请输入规则描述', trigger: 'blur' }
+          { required: true, message: this.$lang.proxyRule.validation.descRule, trigger: 'blur' }
         ],
         match: [
-          { required: true, message: '请输入匹配的url', trigger: 'blur' }
+          { required: true, message: this.$lang.proxyRule.validation.matchRule, trigger: 'blur' }
         ],
         replace: [
-          { required: true, message: '请输入替换的url或者路径', trigger: 'blur' }
+          { required: true, message: this.$lang.proxyRule.validation.replaceRule, trigger: 'blur' }
         ]
       }
     }

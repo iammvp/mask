@@ -1,8 +1,8 @@
 <template>
   <div class="record-list">
     <div class="list-type-menu">
-      <router-link to="/record-list/tree-view"><el-button>树状列表</el-button></router-link>
-      <router-link to="/record-list/sequence-view"><el-button>顺序列表</el-button></router-link>
+      <router-link to="/record-list/tree-view"><el-button>{{$lang.recordList.treeView}}</el-button></router-link>
+      <router-link to="/record-list/sequence-view"><el-button>{{$lang.recordList.sequenceView}}</el-button></router-link>
     </div>
     <router-view/>
   </div>  
@@ -23,7 +23,7 @@ export default {
   methods: {
     ...mapMutations({
       clickRecord: 'SELECT_RECORD',
-      sliceRecords: 'SLICE_RECORDS'
+      outOfSizeLimitation: 'OUT_OF_SIZE_LIMITATION'
     }),
     handleCurrentRecord (row) {
       this.clickRecord(row)
@@ -55,7 +55,7 @@ export default {
       (val) => {
         if (val > this.proxySetting.ramSize) {
           console.log(val)
-          this.sliceRecords()
+          this.outOfSizeLimitation()
         }
       },
       {
