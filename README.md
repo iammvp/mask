@@ -1,7 +1,7 @@
 Mask
 ====
 [中文](https://github.com/iammvp/mask/blob/master/README.zh-CN.md)
-[English](https://github.com/iammvp/mask/blob/master/README.md)
+[English](https://github.com/iammvp/mask)
 
 Mask is an open source mitm proxy tool. It is developed by electron and vue. It supports both HTTP and HTTPS proxy. The purpose of Mask is make a simple proxy tool for mac front-end engineer.
 

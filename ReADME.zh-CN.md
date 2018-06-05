@@ -1,11 +1,11 @@
 Mask
 ====
 [中文](https://github.com/iammvp/mask/blob/master/README.zh-CN.md)
-[English](https://github.com/iammvp/mask/blob/master/README.md)
+[English](https://github.com/iammvp/mask)
 
 Mask 是一个开源的抓包工具。它是通过electron+vue开发，开发思想参考了anyproxy等工具，力求提供给前端们(特别是mac用户)一个简单易用抓包工具。
 
-##下载
+## 下载
 [下载](https://github.com/iammvp/mask/releases/latest)
 
 ## 安装证书
