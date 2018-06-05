@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import axios from 'axios'
 import VueHighlightJS from 'vue-highlightjs'
 import './assets/highlight.main.css'
 import 'animate.css/animate.min.css'
@@ -18,7 +17,6 @@ console.log(remote.getGlobal('lang'))
 Vue.use(VueHighlightJS)
 Vue.use(ElementUI)
 Vue.use(TreeView)
-Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

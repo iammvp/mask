@@ -1,6 +1,6 @@
 Mask
 ====
-[中文](https://github.com/iammvp/mask/blob/master/README.md)
+[中文](https://github.com/iammvp/mask/blob/master/README.zh-CN.md)
 [English](https://github.com/iammvp/mask/blob/master/README.md)
 
 Mask is an open source mitm proxy tool. It is developed by electron and vue. It supports both HTTP and HTTPS proxy. The purpose of Mask is make a simple proxy tool for mac front-end engineer.
@@ -37,10 +37,10 @@ HTTPS becomes more and more popular, you must install Mask CA if you want handle
 
 ![](./readmeImage/en/introduction.png)
 
-1. reload button will clear all records and reload app, it is a good way to release ram
-2. you can set proxy port, data size limitation on proxy setting popup
-3. Mask will set your mac proxy if you enable *Local proxy*
-4. you can find useful information on proxy information popup
+- reload button will clear all records and reload app, it is a good way to release ram
+- you can set proxy port, data size limitation on proxy setting popup
+- Mask will set your mac proxy if you enable *Local proxy*
+- you can find useful information on proxy information popup
 
 ## Forward rule
 

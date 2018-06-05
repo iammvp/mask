@@ -47,11 +47,7 @@ const proxyServer = {
       })
       ctx.onRequestEnd((ctx, callback) => {
         if (requestInfo.method === 'POST') {
-          try {
-            requestInfo.queryParams = JSON.parse(Buffer.concat(requestBody).toString())
-          } catch (error) {
-            requestInfo.queryParams = ''
-          }
+          requestInfo.queryParams = Buffer.concat(requestBody).toString()
         } else {
           requestInfo.queryParams = getQueryParams(requestInfo.fullUrl)
         }

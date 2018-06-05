@@ -13,7 +13,7 @@
         <p class="from-cache" v-if="selectedRecord.statusCode === 304">{{$lang.responseDetail.cacheDesc}}</p>
         <div class="json" v-else-if="selectedRecord.mime=== 'application/json'">
           <tree-view
-            :data="selectedRecord.responseBody">
+            :data="getJson">
           </tree-view>
         </div>
         <pre v-highlightjs="selectedRecord.responseBody" v-else-if="selectedRecord.mime.indexOf('html') !== -1"><code class="javascript"></code></pre>
@@ -38,7 +38,13 @@ export default {
       selectedRecord: state => state.Records.selectedRecord
     }),
     getJson () {
-      return JSON.parse(this.selectedRecord.responseBody)
+      let json
+      try {
+        json = JSON.parse(this.selectedRecord.responseBody)
+      } catch (error) {
+        json = {}
+      }
+      return json
     }
   }
 }

@@ -3,7 +3,8 @@
     "confirm":"确定",
     "cancel":"取消",
     "edit":"修改",
-    "delete":"删除"
+    "delete":"删除",
+    "githubReadme":"https://github.com/iammvp/mask/blob/master/README.zh-CN.md"
   },
   "app":{
     "administratorPrompt":{

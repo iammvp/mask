@@ -1,12 +1,11 @@
 Mask
 ====
-[中文](https://github.com/iammvp/mask/blob/master/README.md)
+[中文](https://github.com/iammvp/mask/blob/master/README.zh-CN.md)
 [English](https://github.com/iammvp/mask/blob/master/README.md)
 
 Mask 是一个开源的抓包工具。它是通过electron+vue开发，开发思想参考了anyproxy等工具，力求提供给前端们(特别是mac用户)一个简单易用抓包工具。
 
 ##下载
-===
 [下载](https://github.com/iammvp/mask/releases/latest)
 
 ## 安装证书
@@ -38,10 +37,10 @@ Mask 是一个开源的抓包工具。它是通过electron+vue开发，开发思
 
 ![](./readmeImage/cn/introduction.png)
 
-1. 重载页面按钮会清除所有的记录，然后重载页面释放内存
-2. 代理服务器设置可以设置代理端口，数据可占用内存等
-3. 如果开启本地代理， 每次打开程序会自动设置本机代理
-4. 代理信息可以找到代理服务器地址， 数据已占用内存等有用信息
+- 重载页面按钮会清除所有的记录，然后重载页面释放内存
+- 代理服务器设置可以设置代理端口，数据可占用内存等
+- 如果开启本地代理， 每次打开程序会自动设置本机代理
+- 代理信息可以找到代理服务器地址， 数据已占用内存等有用信息
 
 ## 代理
 

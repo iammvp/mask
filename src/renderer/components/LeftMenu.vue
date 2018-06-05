@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     handleClickGithub () {
-      shell.openExternal('https://github.com/iammvp/mask')
+      shell.openExternal(this.$lang.common.githubReadme)
     }
   },
   computed: {

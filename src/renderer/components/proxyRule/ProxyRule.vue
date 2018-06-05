@@ -46,7 +46,7 @@
       <el-table-column
         show-overflow-tooltip
         prop="desc"
-        width="80"
+        width="100"
         :label="$lang.proxyRule.label.desc">
       </el-table-column>
       <el-table-column
