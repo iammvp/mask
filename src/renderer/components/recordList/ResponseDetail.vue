@@ -40,7 +40,7 @@ export default {
     getJson () {
       let json
       try {
-        json = JSON.parse(this.selectedRecord.responseBody)
+        json = JSON.parse(JSON.stringify(this.selectedRecord.responseBody))
       } catch (error) {
         json = {}
       }

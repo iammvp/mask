@@ -19,7 +19,7 @@
       <div class="request-params">
         <p class="title">{{$lang.requestDetail.title.params}}</p>
         <div class="detail" v-if="selectedRecord.queryParams !== null">
-          <pre v-highlightjs="beautify(JSON.stringify(selectedRecord.queryParams,null,2), { indent_size: 4, space_in_empty_paren: true })" ><code class="javascript"></code></pre>
+          <pre v-highlightjs="beautify( typeof selectedRecord.queryParams === 'string' ? selectedRecord.queryParams : JSON.stringify(selectedRecord.queryParams,null,2), { indent_size: 4, space_in_empty_paren: true })" ><code class="javascript"></code></pre>
         </div>
       </div>
     </div>

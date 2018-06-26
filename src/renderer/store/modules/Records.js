@@ -48,7 +48,8 @@ const mutations = {
     state.recordsTree = {}
     state.showRecordDetail = false
     if (process.type === 'renderer') {
-      remote.getCurrentWindow().webContents.session.clearCache()
+      remote.getCurrentWindow().webContents.session.clearCache(_ => {
+      })
     }
   },
   REFRESH_PAGE (state) { // clear all record and reload page, for clear cache and save ram purpose

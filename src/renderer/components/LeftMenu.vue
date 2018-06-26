@@ -1,5 +1,10 @@
 <template>
   <div class="left-menu">
+    <div class="logo">
+      <svg>
+        <use :xlink:href="logo"></use>
+      </svg>
+    </div>
     <router-link to="/record-list"><div class="menu-item">{{$lang.leftMenu.records}}</div></router-link>
     <router-link to="/proxy-rule"><div class="menu-item">{{$lang.leftMenu.rules}}</div></router-link>
     <div class="bottom">
@@ -11,11 +16,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { shell } from 'electron'
+import logo from '../assets/logo.svg'
 import githubIcon from '../assets/github-logo.png'
 export default {
   name: 'LeftMenu',
   data () {
     this.githubIcon = githubIcon
+    this.logo = logo
     return {
 
     }
@@ -52,6 +59,14 @@ export default {
       cursor: pointer;
       &:hover{
         background: #303133;
+      }
+    }
+    .logo{
+      height: 200px;
+      svg{
+        width: 120px;
+        height: 80px;
+        color: #67C23A;
       }
     }
     .bottom{
