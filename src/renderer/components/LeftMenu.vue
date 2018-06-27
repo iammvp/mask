@@ -1,9 +1,7 @@
 <template>
   <div class="left-menu">
-    <div class="logo">
-      <svg>
-        <use :xlink:href="logo"></use>
-      </svg>
+    <div class="logo" >
+      <img :src="logo" />
     </div>
     <router-link to="/record-list"><div class="menu-item">{{$lang.leftMenu.records}}</div></router-link>
     <router-link to="/proxy-rule"><div class="menu-item">{{$lang.leftMenu.rules}}</div></router-link>
@@ -57,16 +55,16 @@ export default {
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      &:hover{
-        background: #303133;
-      }
+      background: #777;
+      // &:hover{
+      //   background: #303133;
+      // }
     }
     .logo{
-      height: 200px;
-      svg{
-        width: 120px;
-        height: 80px;
-        color: #67C23A;
+      height: 150px;
+      img{
+        height: 100%;
+        width: 100%;
       }
     }
     .bottom{

@@ -40,7 +40,7 @@ export default {
     getJson () {
       let json
       try {
-        json = JSON.parse(JSON.stringify(this.selectedRecord.responseBody))
+        json = JSON.parse(typeof this.selectedRecord.responseBody === 'string' ? this.selectedRecord.responseBody : JSON.stringify(this.selectedRecord.responseBody))
       } catch (error) {
         json = {}
       }

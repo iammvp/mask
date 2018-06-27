@@ -93,7 +93,7 @@ html,body{
     .main-container{
       height: 100%;
       .app-left{
-        background: #606266;
+        background: #aaa;
         flex:2;
       }
       .app-right{
