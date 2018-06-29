@@ -30,7 +30,9 @@ router.afterEach((to, from) => {
   }
 })
 router.beforeEach((to, from, next) => {
-  if (to.fullPath === '/record-list') {
+  if (to.fullPath === '/record-list' && from.fullPath.indexOf('/record-list') !== -1) {
+
+  } else if (to.fullPath === '/record-list') {
     next({name: preView})
   } else {
     next()
